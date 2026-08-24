@@ -14,3 +14,7 @@ output/
 
 # TypeScript incremental state
 *.tsbuildinfo
+
+# Python interpreter state
+__pycache__/
+*.pyc

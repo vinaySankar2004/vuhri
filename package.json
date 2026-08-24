@@ -1,5 +1,5 @@
 {
-  "name": "hub-to-learn",
+  "name": "vahri",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,17 +9,19 @@
   ],
   "scripts": {
     "setup": "node scripts/setup-local.mjs",
-    "dev": "npm --workspace @hubtolearn/artifact-studio run dev",
+    "dev": "npm --workspace @vahri/artifact-studio run dev",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
+    "check:identity": "node scripts/check-identity.mjs",
     "check:links": "node scripts/check-links.mjs",
     "check:privacy": "node scripts/check-private-boundary.mjs",
     "check:writing": "node scripts/check-writing.mjs",
-    "check": "npm run check:privacy && npm run check:links && npm run check:writing && npm run test && npm run build",
+    "check:video-workspace": "python3 .agents/skills/direct-video/scripts/test_init_video_project.py",
+    "check:video-verification": "python3 .agents/skills/direct-video/scripts/test_verify_video.py",
+    "check": "npm run check:privacy && npm run check:identity && npm run check:links && npm run check:writing && npm run check:video-workspace && npm run check:video-verification && npm run test && npm run build",
     "verify:artifact": "node scripts/verify-artifact.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
   }
 }
-

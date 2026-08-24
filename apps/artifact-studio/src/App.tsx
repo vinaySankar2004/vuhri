@@ -6,7 +6,7 @@ import {
   StateLegend,
   StepControls,
   clampStep,
-} from '@hubtolearn/artifact-kit'
+} from '@vahri/artifact-kit'
 
 const states = [
   {
@@ -49,9 +49,9 @@ export function App() {
   return (
     <>
       <nav className="studio-nav" aria-label="Artifact Studio navigation">
-        <a className="brand" href="#top" aria-label="HubToLearn Artifact Studio home">
-          <span className="brand-mark" aria-hidden="true">H</span>
-          <span>HubToLearn</span>
+        <a className="brand" href="#top" aria-label="vahri Artifact Studio home">
+          <span className="brand-mark" aria-hidden="true">v</span>
+          <span>vahri</span>
         </a>
         <div className="nav-status">
           <span className="status-dot" aria-hidden="true" />
@@ -154,4 +154,3 @@ export function App() {
     </>
   )
 }
-

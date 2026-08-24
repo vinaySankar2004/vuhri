@@ -35,7 +35,6 @@ Run the application in a real browser. Exercise expected paths, incorrect action
 
 ## Video
 
-Educational direction and technical Remotion construction are separate concerns. A future direction skill will define audience, objective, misconception, beat sheet, narration, visual action, timing, sources, prediction moments, and a companion learning check. Official Remotion skills should handle technical creation and rendering.
+Educational direction and technical Remotion construction are separate concerns. The general `direct-video` skill defines editable direction artifacts and stable revision targets. The `remotion-learning-director` skill adds the learning objective, misconception, prediction or retrieval moment, source requirements, and companion learning check. Official Remotion skills handle technical creation and rendering.
 
-Rendered video verification should inspect frames, pacing, captions, audio, clipping, synchronization, accuracy, distracting motion, and alignment with the approved beat sheet.
-
+Rendered video verification should inspect frames, pacing, captions, audio, clipping, synchronization, accuracy, distracting motion, and alignment with the approved beat sheet and shot plan. Run technical checks against the actual exported media and preserve metadata, sampled frames, stable-ID shot frames, contact sheets, diagnostics, and a visual-review record. Automated checks do not stand in for agent playback and visual inspection.

@@ -1,6 +1,6 @@
 # Context map
 
-HubToLearn uses spaces for durable working context and shared concept records for knowledge that crosses spaces.
+vahri uses spaces for durable working context and shared concept records for knowledge that crosses spaces.
 
 ## Spaces
 
@@ -36,4 +36,3 @@ An unrelated quick inquiry should not inherit yesterday's active topic.
 ## Lifecycle
 
 Spaces may be active, paused, completed, or archived. Archived spaces remain searchable but do not load by default. Preserve links when splitting, merging, renaming, or reopening spaces.
-

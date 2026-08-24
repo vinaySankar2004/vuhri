@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remotion Marketing Director"
+  short_description: "Guide and build polished marketing videos"
+  default_prompt: "Use $remotion-marketing-director to direct and build a polished marketing video from my product idea."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Direct Video"
+  short_description: "Design editable, shot-level video direction"
+  default_prompt: "Use $direct-video to turn this idea into an editable direction brief, beat sheet, and shot plan."

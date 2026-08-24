@@ -1,27 +1,30 @@
-# HubToLearn vision
+# vahri vision
 
-HubToLearn gives a capable coding agent durable teaching context, inspectable learner memory, flexible learning spaces, and the ability to build verified learning artifacts.
+vahri helps a person direct what they learn and what they create. Coding agents provide teaching, research, creative direction, implementation, and verification while the person retains control through inspectable files and narrow revision surfaces.
 
-It begins with the user's inquiry. A two-minute question should remain light. A growing topic can become a durable space. A course, exam, paper, project, or practice track can keep sources, attempts, evidence, artifacts, and an exact continuation point.
+A quick question should remain light. A sustained topic can keep sources, attempts, evidence, and an exact continuation point. A video can move from intent to direction, script, stable-ID beats and shots, deterministic production, visual verification, and scoped revision without regenerating unaffected work.
 
-## Product parts
+## Product
 
-1. A teacher that adapts its explanation, questioning, help, pace, depth, and format.
-2. A learner model that links beliefs to evidence and remains easy to inspect, correct, export, or delete.
-3. A context map that connects inquiries, concepts, sources, goals, assessments, and spaces.
-4. An artifact workshop that creates another representation when conversation is insufficient.
+1. Adaptive learning that changes explanation, questioning, help, pace, depth, and format from evidence.
+2. Directed creation for interactive explanations, learning videos, marketing films, ads, product motion, and other code-built visual work.
+3. Inspectable memory that preserves decisions, sources, feedback, failures, and verified reusable patterns.
+4. Pre-verification that exercises artifacts in their actual format before human review.
 
 ## Success
 
-HubToLearn succeeds when the learner can explain, apply, transfer, and later retrieve what they studied. Enjoyment and visual interest help the learner begin and persist, but artifact count and session length are not learning measures.
+Learning succeeds when the learner can explain, apply, transfer, and later retrieve what they studied under stated conditions.
+
+Creative work succeeds when the intended audience, meaning, attention, pacing, evidence, and action survive the final render or interaction, and requested changes can be applied without collateral regeneration.
+
+Artifact count, session length, visual novelty, and automated checks alone are not success measures.
 
 ## Boundaries
 
 - Personal state stays local.
-- Shared improvements use sanitized lessons reviewed by a person.
-- Generated claims retain sources and uncertainty.
+- Source-backed facts, user statements, agent inferences, and recommendations remain distinguishable.
 - Learner capability is never inferred from fluent conversation alone.
-- Artifacts require technical and instructional verification.
-- Plain files remain the first storage layer.
-- Codex is the primary verified environment. Claude Code is supported by the shared Markdown structure and can be tested when available.
-
+- Marketing claims, testimonials, product behavior, rights, and platform rules are never invented.
+- Built artifacts require technical and human-interpretable verification evidence.
+- Shared improvements come from sanitized, reviewed outcomes rather than raw output.
+- Plain files remain the primary coordination layer across Codex, Claude Code, Cursor, and compatible coding agents.

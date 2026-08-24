@@ -1,6 +1,6 @@
 # Interaction
 
-HubToLearn begins with the user's request and adds structure only when it improves learning or continuity.
+vahri begins with the user's request and adds structure only when it improves learning or continuity.
 
 ## Engagement levels
 
@@ -43,4 +43,3 @@ A short tangent can remain in the current session. For a full pivot, record the 
 ## Closing
 
 Quick inquiries stop naturally. Sustained sessions record meaningful evidence, unresolved questions, artifact state, review suggestions, and the next action. An exit explanation or retrieval prompt is optional and should respect fatigue and time.
-

@@ -1,8 +1,8 @@
-# HubToLearn
+# vahri
 
-HubToLearn is a local, repo-based learning system for Codex and compatible coding agents. It can handle a quick question, a sustained topic, a course, an exam, a paper, a project, or a practice track.
+vahri is a local-first workspace for learning and directed creation with coding agents. It supports quick questions, durable learning spaces, interactive explanations, and editable videos for education, marketing, and other topics.
 
-The public repository holds the teaching method, reusable skills, artifact foundations, templates, checks, and accepted lessons. Personal goals, sources, attempts, assessments, memory, and generated learning artifacts stay in `local/`, which Git ignores.
+Intent, sources, direction, implementation, verification, and reusable lessons remain in inspectable files. Personal learning records and generated artifacts stay private under `local/`.
 
 ## Start
 
@@ -11,35 +11,34 @@ npm install
 npm run setup
 ```
 
-Then open this folder in Codex and ask a question. HubToLearn should begin with the inquiry. It creates structure only when continuity, evidence, sources, or artifacts make that structure useful.
+Open the folder in Codex, Claude Code, Cursor, or another coding agent that follows repository instructions, then begin with the actual inquiry or creative request. vahri adds structure only when continuity, evidence, sources, direction, or production make it useful.
 
-Run the artifact studio with:
+Run the local artifact studio with:
 
 ```bash
 npm run dev
 ```
 
-Run all repository checks with:
+Run the complete repository check with:
 
 ```bash
 npm run check
 ```
 
-## Where to look
+## Repository map
 
 - `AGENTS.md` contains the operating constitution.
 - `VISION.md` defines the product and its boundaries.
 - `DECISIONS.md` records settled design choices.
-- `method/` explains the learner model, context, interaction, sources, artifacts, and writing.
-- `.agents/skills/` contains reusable workflows.
-- `templates/local/` is the public template for private learner state.
+- `method/` contains the learning, context, source, artifact, and writing methods.
+- `.agents/skills/` contains reusable direction, production, verification, and repository workflows.
+- `templates/local/` is the public template for private working state.
 - `apps/artifact-studio/` hosts local interactive artifacts.
 - `packages/artifact-kit/` contains reusable learning interface components.
-- `lessons/` records proposed and accepted improvements.
+- `lessons/` records improvements grounded in actual use.
 
 ## Privacy
 
-`local/` is excluded from the public repository. `npm run check:privacy` fails if Git begins tracking anything inside it. Raw course material, assessments, results, and personal memory must stay there.
+Git ignores `local/`. `npm run check:privacy` fails if Git begins tracking personal sources, attempts, assessments, memory, or generated private artifacts.
 
-If private backup is needed, `local/` can later become its own private Git repository.
-
+If private backup is needed, `local/` can become a separate private repository.
