@@ -1,5 +1,5 @@
 {
-  "name": "vahri",
+  "name": "vuhri",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "setup": "node scripts/setup-local.mjs",
-    "dev": "npm --workspace @vahri/artifact-studio run dev",
+    "dev": "npm --workspace @vuhri/artifact-studio run dev",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "check:identity": "node scripts/check-identity.mjs",

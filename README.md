@@ -1,6 +1,6 @@
-# vahri
+# vuhri
 
-vahri is a local-first workspace for learning and directed creation with coding agents. It supports quick questions, durable learning spaces, interactive explanations, and editable videos for education, marketing, and other topics.
+vuhri is a local-first workspace for learning and directed creation with coding agents. It supports quick questions, durable learning spaces, interactive explanations, and editable videos for education, marketing, and other topics.
 
 Intent, sources, direction, implementation, verification, and reusable lessons remain in inspectable files. Personal learning records and generated artifacts stay private under `local/`.
 
@@ -11,7 +11,7 @@ npm install
 npm run setup
 ```
 
-Open the folder in Codex, Claude Code, Cursor, or another coding agent that follows repository instructions, then begin with the actual inquiry or creative request. vahri adds structure only when continuity, evidence, sources, direction, or production make it useful.
+Open the folder in Codex, Claude Code, Cursor, or another coding agent that follows repository instructions, then begin with the actual inquiry or creative request. vuhri adds structure only when continuity, evidence, sources, direction, or production make it useful.
 
 Run the local artifact studio with:
 

@@ -1,6 +1,6 @@
 # Interaction
 
-vahri begins with the user's request and adds structure only when it improves learning or continuity.
+vuhri begins with the user's request and adds structure only when it improves learning or continuity.
 
 ## Engagement levels
 

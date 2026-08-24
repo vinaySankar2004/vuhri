@@ -8,12 +8,16 @@ const tracked = execFileSync('git', ['ls-files', '-z'], {encoding: 'utf8'})
 const retiredTitle = ['Hub', 'To', 'Learn'].join('')
 const retiredSlug = ['hub', 'to', 'learn'].join('-')
 const retiredScope = `@${['hub', 'to', 'learn'].join('')}`
-const uppercaseName = ['V', 'ahri'].join('')
+const retiredIntermediateName = ['va', 'hri'].join('')
+const uppercaseName = ['V', 'uhri'].join('')
 
 const forbidden = [
   {
     label: 'retired project name',
-    pattern: new RegExp(`${retiredTitle}|${retiredSlug}|${retiredScope}`, 'g'),
+    pattern: new RegExp(
+      `${retiredTitle}|${retiredSlug}|${retiredScope}|${retiredIntermediateName}`,
+      'gi',
+    ),
   },
   {label: 'uppercase project name', pattern: new RegExp(`\\b${uppercaseName}\\b`, 'g')},
 ]

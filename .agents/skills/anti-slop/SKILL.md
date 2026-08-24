@@ -1,6 +1,6 @@
 ---
 name: anti-slop
-description: Edit vahri explanations, artifact copy, public lessons, and user-facing documentation into clear human prose. Use when drafting or reviewing text the learner will read. Do not use to imitate the learner's typos or flatten necessary technical language.
+description: Edit vuhri explanations, artifact copy, public lessons, and user-facing documentation into clear human prose. Use when drafting or reviewing text the learner will read. Do not use to imitate the learner's typos or flatten necessary technical language.
 ---
 
 # Anti-slop

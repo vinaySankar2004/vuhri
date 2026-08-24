@@ -11,7 +11,7 @@ Make the repository easier to understand and resume. Preserve the user's work an
 
 Read the repository instructions. Inspect the current branch, status, staged diff, unstaged diff, and relevant untracked files. Treat pre-existing or unrelated changes as the user's work. Include them only when the requested commit clearly covers them.
 
-Check for private learner data, credentials, generated output, large binaries, and accidental tool state. In vahri, run `npm run check:privacy` when available. Never force-add ignored content merely to make the working tree appear clean.
+Check for private learner data, credentials, generated output, large binaries, and accidental tool state. In vuhri, run `npm run check:privacy` when available. Never force-add ignored content merely to make the working tree appear clean.
 
 ## Form the checkpoint
 

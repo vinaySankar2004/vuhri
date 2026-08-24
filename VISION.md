@@ -1,6 +1,6 @@
-# vahri vision
+# vuhri vision
 
-vahri helps a person direct what they learn and what they create. Coding agents provide teaching, research, creative direction, implementation, and verification while the person retains control through inspectable files and narrow revision surfaces.
+vuhri helps a person direct what they learn and what they create. Coding agents provide teaching, research, creative direction, implementation, and verification while the person retains control through inspectable files and narrow revision surfaces.
 
 A quick question should remain light. A sustained topic can keep sources, attempts, evidence, and an exact continuation point. A video can move from intent to direction, script, stable-ID beats and shots, deterministic production, visual verification, and scoped revision without regenerating unaffected work.
 

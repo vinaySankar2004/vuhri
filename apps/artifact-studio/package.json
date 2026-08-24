@@ -1,5 +1,5 @@
 {
-  "name": "@vahri/artifact-studio",
+  "name": "@vuhri/artifact-studio",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
-    "@vahri/artifact-kit": "*",
+    "@vuhri/artifact-kit": "*",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },

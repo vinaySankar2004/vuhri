@@ -1,6 +1,6 @@
 ---
 name: remotion-learning-director
-description: Direct, build, verify, and publish Remotion videos that teach a concept through meaningful motion. Use for vahri learning videos, especially when an approved artifact brief or companion interactive lesson already exists. Do not use for ordinary promotional videos or footage-only editing.
+description: Direct, build, verify, and publish Remotion videos that teach a concept through meaningful motion. Use for vuhri learning videos, especially when an approved artifact brief or companion interactive lesson already exists. Do not use for ordinary promotional videos or footage-only editing.
 ---
 
 # Remotion Learning Director

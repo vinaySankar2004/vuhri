@@ -6,7 +6,7 @@ import {
   StateLegend,
   StepControls,
   clampStep,
-} from '@vahri/artifact-kit'
+} from '@vuhri/artifact-kit'
 
 const states = [
   {
@@ -49,9 +49,9 @@ export function App() {
   return (
     <>
       <nav className="studio-nav" aria-label="Artifact Studio navigation">
-        <a className="brand" href="#top" aria-label="vahri Artifact Studio home">
+        <a className="brand" href="#top" aria-label="vuhri Artifact Studio home">
           <span className="brand-mark" aria-hidden="true">v</span>
-          <span>vahri</span>
+          <span>vuhri</span>
         </a>
         <div className="nav-status">
           <span className="status-dot" aria-hidden="true" />

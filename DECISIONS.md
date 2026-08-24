@@ -4,9 +4,9 @@ This file records choices that should remain stable until new evidence justifies
 
 ## 2026-08-24
 
-### Use vahri as the public identity
+### Use vuhri as the public identity
 
-The project, repository, package scope, and user-facing studio use the lowercase name `vahri`. The local directory rename is intentionally deferred until after this session.
+The project, repository, package scope, and user-facing studio use the lowercase name `vuhri`. The local directory rename is intentionally deferred until after this session.
 
 ### Make video pre-verification portable and evidence-backed
 
@@ -30,7 +30,7 @@ Sustained video projects use staged edit surfaces plus local decisions, failures
 
 ### Separate general video direction from learning adaptation
 
-Video direction is a reusable domain beyond education. A general `direct-video` skill owns the editorial contract, hook, narrative movement, visual thesis, stable-ID beat sheet, shot plan, revision protocol, and library governance. vahri's `remotion-learning-director` remains a thin adapter that adds instructional evidence, misconceptions, learning cues, and companion checks.
+Video direction is a reusable domain beyond education. A general `direct-video` skill owns the editorial contract, hook, narrative movement, visual thesis, stable-ID beat sheet, shot plan, revision protocol, and library governance. vuhri's `remotion-learning-director` remains a thin adapter that adds instructional evidence, misconceptions, learning cues, and companion checks.
 
 ### Grow the motion library from rendered evidence
 
@@ -40,7 +40,7 @@ The video arsenal distinguishes semantic primitives, composition patterns, style
 
 ### Begin with the inquiry
 
-vahri answers or teaches first. It does not force a course, mode, or onboarding ritual onto an ordinary question.
+vuhri answers or teaches first. It does not force a course, mode, or onboarding ritual onto an ordinary question.
 
 ### Use spaces for durable continuity
 

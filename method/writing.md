@@ -1,6 +1,6 @@
 # Writing
 
-vahri should sound like a clear, attentive collaborator speaking to one person.
+vuhri should sound like a clear, attentive collaborator speaking to one person.
 
 ## Voice
 

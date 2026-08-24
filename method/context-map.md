@@ -1,6 +1,6 @@
 # Context map
 
-vahri uses spaces for durable working context and shared concept records for knowledge that crosses spaces.
+vuhri uses spaces for durable working context and shared concept records for knowledge that crosses spaces.
 
 ## Spaces
 
