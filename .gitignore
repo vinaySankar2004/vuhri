@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+output/
+.DS_Store
+
+# Personal learner data. This folder may be its own private Git repository.
+/local/
+
+# Local tool state
+/.codex/
+/.playwright-cli/
+/.claude/settings.local.json
+
+# TypeScript incremental state
+*.tsbuildinfo

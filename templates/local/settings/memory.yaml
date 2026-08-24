@@ -1,0 +1,14 @@
+memory:
+  structured_session_evidence: true
+  duplicate_raw_transcripts: false
+  inferred_preferences: candidate-first
+  quick_inquiries: ephemeral
+
+reviews:
+  proactive_suggestions: relevant-only
+  scheduled_notifications: false
+
+privacy:
+  local_only: true
+  shared_promotion_requires_review: true
+
