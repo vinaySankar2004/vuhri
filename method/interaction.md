@@ -26,6 +26,10 @@ Useful questions often clarify purpose, required depth, source authority, time, 
 
 The active session may track directness, help, depth, pace, questioning, artifact use, time, and source constraints. These are settings, not fixed personalities. The user's current instruction overrides stored defaults.
 
+## Incognito
+
+An incognito session is declared in the user's first message and cannot be switched off. `AGENTS.md` defines what it permits. Engagement levels and interaction settings still apply inside it, but nothing is recorded, so continuity ends with the session.
+
 ## Feedback loop
 
 1. Explain or demonstrate one useful unit.

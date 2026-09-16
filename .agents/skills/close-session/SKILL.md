@@ -5,7 +5,7 @@ description: Close a sustained session. Bring the session record and NOW.md curr
 
 # Close a session
 
-A session is closed when a later session can resume from the files alone. Quick inquiries need none of this. Do not run it for a question answered in a few turns.
+A session is closed when a later session can resume from the files alone. Quick inquiries need none of this. Do not run it for a question answered in a few turns. An incognito session leaves no record by definition, so it is never closed this way.
 
 ## Update the record first
 

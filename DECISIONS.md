@@ -2,6 +2,12 @@
 
 This file records choices that should remain stable until new evidence justifies changing them.
 
+## 2026-09-16
+
+### Allow incognito sessions
+
+A session declared incognito in the user's first message runs with no read or write access to `local/` or to memory stored outside the repository, and leaves no trace of having happened. The mode is one way. It cannot be declared retroactively, because a mid-session switch would require deleting work already recorded, and it cannot be lifted, because a session that can rejoin memory is not private. The agent never asks for it or offers it, so an undeclared session is always a normal one. Incognito is scoped to questions, reading, and discussion rather than production work, and it does not relax writing or teaching standards.
+
 ## 2026-08-24
 
 ### Use vuhri as the public identity
