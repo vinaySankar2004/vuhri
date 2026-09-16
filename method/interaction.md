@@ -43,3 +43,5 @@ A short tangent can remain in the current session. For a full pivot, record the 
 ## Closing
 
 Quick inquiries stop naturally. Sustained sessions record meaningful evidence, unresolved questions, artifact state, review suggestions, and the next action. An exit explanation or retrieval prompt is optional and should respect fatigue and time.
+
+Use `close-session` to close a sustained session. It covers the record, the length budget on `NOW.md`, and the checkpoint in both repositories.

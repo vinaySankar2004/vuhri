@@ -32,7 +32,7 @@ Read the relevant method document when the task needs it:
 
 ## Manage memory carefully
 
-- Store personal state only under `local/`.
+- Store personal state only under `local/`. It is its own private repository, ignored by this one, and the two histories never merge.
 - Every inferred learner belief must link to evidence. Without evidence, it cannot be stored as an observation.
 - Explicit preferences take effect immediately. Inferred preferences begin as candidates and retain counterevidence.
 - Record what was demonstrated, the conditions, help used, context, and date.
@@ -59,7 +59,8 @@ Read the relevant method document when the task needs it:
 ## Close in proportion to the work
 
 - A quick inquiry needs no formal closure.
-- For sustained work, update evidence, open questions, artifacts, and the exact continuation point. Keep the user-facing handoff concise.
+- For sustained work, use `close-session`. Update evidence, open questions, artifacts, and the exact continuation point. Keep the user-facing handoff concise.
+- Hold `local/NOW.md` to its 450-word budget. Move detail to the space it belongs to and link, rather than restating it.
 - If a session stops unexpectedly, preserve meaningful checkpoints so a later session can resume without reconstruction.
 
 ## Writing and quality

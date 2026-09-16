@@ -1,0 +1,42 @@
+---
+name: close-session
+description: Close a sustained session. Bring the session record and NOW.md current, hold them to their length budgets, then checkpoint both repositories. Use when the user says they are done, stopping, wrapping up, or when a sustained piece of work reaches a natural end.
+---
+
+# Close a session
+
+A session is closed when a later session can resume from the files alone. Quick inquiries need none of this. Do not run it for a question answered in a few turns.
+
+## Update the record first
+
+Write the session record before committing anything. Record what was demonstrated, the conditions, help used, and the date. Keep it under 900 words. Preserve original attempts.
+
+Then bring `local/NOW.md` current. It is loaded at the start of every session, so its length is a standing cost on every future session.
+
+- Budget: 450 words, enforced by `npm run check:context`.
+- It holds what is live: the active space and its exact continuation point, what was most recently completed, and open threads that need an action.
+- Move detail into the space, session record, or knowledge note it belongs to, and link to it. Do not restate a fact that already sits one link away.
+- Delete items that resolved. A finished thread is not context.
+- Convert relative dates to absolute ones.
+
+The same discipline applies to space `CONTEXT.md` files. If one has grown past what a reader needs to resume, split it.
+
+## Checkpoint
+
+Two repositories, separate histories.
+
+`local/` is private, on `vinaySankar2004/vuhri-local`. Commit it at close without asking, once the record and `NOW.md` are current. Its contents are personal by definition, so the question is only whether the writing is accurate, not whether it is safe to store.
+
+The public `vuhri` repository holds method and tooling. Show the user what changed there and get a yes before committing.
+
+Run the checks the change earns. Method, script, or skill changes in the public repository call for `npm run check`. A `local/` commit calls for `npm run check:privacy` and `npm run check:context`. Never force-add ignored content.
+
+Follow `.agents/skills/commit-changes/SKILL.md` for message style, staging, and the rules on amending and history. Do not create tags.
+
+## Push separately
+
+Committing is not pushing. Push only when the user asks or has said to keep a repository synchronized. Report what is committed locally and what has reached the remote, and do not describe one as the other.
+
+## Report
+
+One short paragraph: what the session established, where it stopped, and the state of both repositories. The files carry the detail. The handoff does not repeat them.
