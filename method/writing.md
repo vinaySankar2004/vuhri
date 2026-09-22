@@ -28,6 +28,12 @@ Avoid inflated words, uniform three-part rhetoric, excessive bolding, unnecessar
 
 Do not imitate the user's typos or force slang. Preserve warmth while writing clearly.
 
+## Mathematics
+
+Mathematical notation has its own rules in [math-notation.md](math-notation.md). Displayed
+equations and matrices always go in a fenced code block. Follow it for every user-visible
+derivation.
+
 ## Editing test
 
 Read the text aloud. Rewrite anything that sounds like a chatbot, marketing copy, a formal report without need, or a lecture delivered without attention to the learner.

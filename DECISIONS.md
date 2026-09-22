@@ -2,6 +2,34 @@
 
 This file records choices that should remain stable until new evidence justifies changing them.
 
+## 2026-09-21
+
+### Let the medium decide how mathematics is written
+
+A chat client renders markdown in a proportional font, where unicode subscripts collide with
+emphasis markers and nothing aligns, so a derivation written inline is harder to read than its
+source. Displayed equations and matrices go in fenced code blocks there. A web page has no such
+limit and typesets properly. The rules are recorded in `method/math-notation.md`, which is
+loaded from the constitution alongside the writing method.
+
+### Treat a growing annotated document as append-only
+
+A notebook read across months is annotated by the learner, who also inserts pages of their own.
+That copy is the only place their work exists, so the document is never regenerated. New
+sections are rendered alone and spliced into the file they return. The contents page belongs to
+the document and may be replaced; every other page belongs to the learner once delivered, which
+makes a correction an inserted page rather than a rewrite. One HTML source produces both the
+live page and the export so the two cannot drift, and it must be able to render a named subset
+of itself. `scripts/splice-notes-pdf.py` implements this.
+
+### Require an artifact to survive printing
+
+An artifact meant for paper or a tablet must transfer completely apart from its interactivity,
+with each control replaced by the static result it would have produced. Overflow containers
+clip rather than scroll, typeset mathematics cannot wrap, and CSS grid mis-fragments across a
+page break. Every rendered page is inspected after any content change, because new content
+moves every page break after it.
+
 ## 2026-09-16
 
 ### Allow incognito sessions

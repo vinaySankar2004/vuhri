@@ -11,6 +11,49 @@ Use this format:
 - Status: proposed
 ```
 
+## 2026-09-21: Write mathematics for the medium it is read in
+
+- Evidence: A projection derivation written inline in chat mixed unicode subscripts with
+  emphasis markers. The learner screenshotted it, said matrix and summation notation was hard
+  to read that way, and asked for a fix that would hold permanently. The same content in a
+  fenced block, and later typeset on a web page, was legible without further explanation.
+- Proposed change: Add `method/math-notation.md`, load it from the constitution beside the
+  writing method, and link it from `method/writing.md`. Fenced code blocks in chat with ASCII
+  sub and superscripts; real typesetting in a web artifact.
+- Scope and exclusions: Applies to any user-visible derivation, matrix, or multi-step
+  algebra. It does not govern code, and it does not require typesetting where a sentence
+  would do.
+- Status: accepted
+
+## 2026-09-21: Treat a growing annotated document as append-only
+
+- Evidence: The learner asked to keep one course notebook on a tablet, annotate it, and have
+  new units added to that same file as they were taught, then raised the case of a correction
+  landing on a page he had already written on. Regenerating the document would have destroyed
+  a term of annotation invisibly.
+- Proposed change: Add `scripts/splice-notes-pdf.py` and an accumulating-documents section to
+  `method/artifacts.md`. One HTML source renders both the live page and the export and can
+  render a named subset of itself; new sections are spliced into the returned file; the
+  contents page is replaceable and every other page is not.
+- Scope and exclusions: Applies to artifacts read over months and annotated outside the
+  system. A one-off explainer is still regenerated freely. The approach accumulates errata
+  pages rather than keeping the document pristine, which is the intended trade.
+- Status: accepted
+
+## 2026-09-21: Verify an artifact against print, not only against the screen
+
+- Evidence: Exporting a working page produced three defects invisible on screen: typeset
+  mathematics clipped past the page edge, a callout drawn on top of a card because CSS grid
+  mis-fragments across a page break, and a near-blank page where a short tail orphaned. Only
+  one was reported by the learner; the other two were found by inspecting every page.
+- Proposed change: Add a printing section to `method/artifacts.md`. Interactive controls are
+  replaced by the static result they would produce, nothing depends on scrolling, tall
+  containers use block layout when printing, and every rendered page is inspected after any
+  content change.
+- Scope and exclusions: Applies to artifacts intended to be read away from the browser. It
+  does not require a print stylesheet for a screen-only tool.
+- Status: accepted
+
 ## 2026-08-24: Make video direction addressable
 
 - Evidence: The MCP learning video reached a verified result, but its brief and storyboard identified scenes only by time and title. The learner then asked for deeper direction, granular control, reusable hook and motion vocabulary, and local changes that do not regenerate unaffected work.

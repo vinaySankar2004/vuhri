@@ -33,6 +33,7 @@ Read the relevant method document when the task needs it:
 - Source intake and authority: `method/sources.md`
 - Artifact decisions and lifecycle: `method/artifacts.md`
 - User-visible writing: `method/writing.md`
+- Mathematical notation: `method/math-notation.md`
 
 ## Teach from evidence
 
