@@ -13,6 +13,15 @@ Read the repository instructions. Inspect the current branch, status, staged dif
 
 Check for private learner data, credentials, generated output, large binaries, and accidental tool state. In vuhri, run `npm run check:privacy` when available. Never force-add ignored content merely to make the working tree appear clean.
 
+## Commit only this session's work
+
+He runs several sessions at once, often in the same space and the same files. A plain "commit" means this session's changes only.
+
+- Stage the paths this session created or edited, never `git add .` or `-A`. Commit everything only when he says so explicitly.
+- A file other sessions also changed gets hunk-level staging. Stage only this session's hunks. Build a patch from `git diff <file>`, keep this session's hunks, and apply it with `git apply --cached`. Then confirm with `git diff --cached` that nothing foreign went in.
+- If a hunk mixes this session's lines with another session's, or context was summarized and ownership is unclear, ask before staging it.
+- Report what was left unstaged, so the other sessions' work is visibly untouched.
+
 ## Form the checkpoint
 
 Group one coherent change per commit when practical. Stage explicit paths unless every visible change is clearly within scope. Review the staged diff or summary before committing.
