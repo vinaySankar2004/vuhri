@@ -2,6 +2,32 @@
 
 This file records choices that should remain stable until new evidence justifies changing them.
 
+## 2026-10-03
+
+### Verify Claude Code first
+
+Claude Code is the primary environment, and the people vuhri is being shared with use it in the desktop app. Codex and other agents stay compatible through `AGENTS.md`, plain files, and Agent Skills conventions. This replaces the earlier Codex-first decision.
+
+### Keep one home per rule
+
+Every rule lives in exactly one place: shared method in `method/` and skills, personal preferences in `local/preferences/` indexed by `local/PROFILE.md`, space rules in their space. An agent's private memory holds only a pointer, because rules kept there were invisible to other agents and drifted. Word budgets in `npm run check` keep entry files and skills small, and the `consolidate` skill repeats the audit.
+
+### Separate maintainer and user roles
+
+People who use vuhri without developing it are wary of an agent with access to their computer. For them the agent works only inside the vuhri folder unless asked, never commits or pushes the public repository, and offers updates in everyday words. Every update ends with their `local/` aligned through `MIGRATIONS.md`. See `method/housekeeping.md`.
+
+### Keep the workspace small
+
+Download what a task needs when it needs it. Each session starts with a size check of the vuhri folder, raises large items once in plain words, removes only on a yes and only to the Trash, and remembers what the person chose to keep.
+
+### Treat the HTML frame renderer as a peer of Remotion
+
+A page that draws any frame from a time value, captured in headless Chromium and encoded with ffmpeg, produced the most successful video so far without a per-project install. `direct-video/references/rendering.md` chooses between the two by need.
+
+### Allow optional analysis outside the verification boundary
+
+Beat analysis needs librosa, which breaks the Python-plus-ffmpeg boundary. It stays an optional tool with pinned requirements, installed only when a video needs it, and never part of the verification gate.
+
 ## 2026-09-21
 
 ### Let the medium decide how mathematics is written
@@ -40,7 +66,7 @@ A session declared incognito in the user's first message runs with no read or wr
 
 ### Use vuhri as the public identity
 
-The project, repository, package scope, and user-facing studio use the lowercase name `vuhri`. The local directory rename is intentionally deferred until after this session.
+The project, repository, package scope, and user-facing studio use the lowercase name `vuhri`.
 
 ### Make video pre-verification portable and evidence-backed
 
@@ -103,7 +129,3 @@ An artifact begins with a learning brief. Interactive websites require build, in
 ### Reuse before expanding the artifact kit
 
 The shared kit grows from components that prove useful in real artifacts. The repository does not predict a full component catalog in advance.
-
-### Verify Codex first
-
-Codex is the active test environment. Other agents receive compatibility through `AGENTS.md`, plain files, and Agent Skills conventions. Tool-specific infrastructure is added only after a demonstrated need.

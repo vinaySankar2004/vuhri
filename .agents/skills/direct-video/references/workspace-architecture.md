@@ -5,10 +5,10 @@ Use the staged workspace for a sustained video project, not for a tiny settled e
 Create it with:
 
 ```bash
-python3 scripts/init_video_project.py /absolute/path/to/new-project --title "Project title" --kind marketing
+python3 scripts/init_video_project.py /absolute/path/to/new-project --title "Project title" --kind marketing --format vertical
 ```
 
-The initializer refuses to overwrite an existing path.
+Repeat `--format` for each composed variant. The initializer refuses to overwrite an existing path.
 
 ## Stages
 
@@ -37,7 +37,8 @@ video-project/
 |   `-- runs/
 |-- 08_revisions/
 |-- tools/
-|   `-- verify_video.py
+|   |-- verify_video.py
+|   `-- bake_poster.py
 |-- library/
 `-- memory/
     |-- decisions.md

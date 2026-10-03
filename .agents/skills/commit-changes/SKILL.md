@@ -5,7 +5,7 @@ description: Create a careful Git checkpoint when the user asks to commit, save,
 
 # Commit changes
 
-Make the repository easier to understand and resume. Preserve the user's work and authorization boundaries.
+Make the repository easier to understand and resume. Preserve the user's work and authorization boundaries. Only the `maintainer` role commits to the public vuhri repository; a user's commits stay in their own `local/` (see `method/housekeeping.md`).
 
 ## Inspect before staging
 
@@ -15,9 +15,9 @@ Check for private learner data, credentials, generated output, large binaries, a
 
 ## Commit only this session's work
 
-He runs several sessions at once, often in the same space and the same files. A plain "commit" means this session's changes only.
+Several sessions may run at once, often in the same space and the same files. A plain "commit" means this session's changes only.
 
-- Stage the paths this session created or edited, never `git add .` or `-A`. Commit everything only when he says so explicitly.
+- Stage the paths this session created or edited, never `git add .` or `-A`. Commit everything only when the user says so explicitly.
 - A file other sessions also changed gets hunk-level staging. Stage only this session's hunks. Build a patch from `git diff <file>`, keep this session's hunks, and apply it with `git apply --cached`. Then confirm with `git diff --cached` that nothing foreign went in.
 - If a hunk mixes this session's lines with another session's, or context was summarized and ownership is unclear, ask before staging it.
 - Report what was left unstaged, so the other sessions' work is visibly untouched.

@@ -13,7 +13,8 @@ from contextlib import redirect_stdout
 from io import StringIO
 from pathlib import Path
 
-from verify_video import verify_video
+from bake_poster import bake_poster
+from verify_video import reading_floor, verify_video
 
 
 def make_video(path: Path) -> None:
@@ -47,19 +48,34 @@ def make_video(path: Path) -> None:
     )
 
 
-def arguments(video: Path, out: Path, manifest: Path | None = None, width: int = 320) -> argparse.Namespace:
-    return argparse.Namespace(
-        video=video,
-        out=out,
-        interval=1.0,
-        manifest=manifest,
-        width=width,
-        height=180,
-        fps=30.0,
-        duration=2.0,
-        duration_tolerance=0.15,
-        require_audio=True,
-    )
+def arguments(
+    video: Path,
+    out: Path,
+    manifest: Path | None = None,
+    width: int | None = 320,
+    **overrides: object,
+) -> argparse.Namespace:
+    values = {
+        "video": video,
+        "out": out,
+        "interval": 1.0,
+        "manifest": manifest,
+        "width": width,
+        "height": 180,
+        "fps": 30.0,
+        "duration": 2.0,
+        "duration_tolerance": 0.15,
+        "require_audio": True,
+        "format": None,
+        "poster": None,
+    }
+    values.update(overrides)
+    return argparse.Namespace(**values)
+
+
+def check(out: Path, name: str) -> dict[str, str]:
+    result = json.loads((out / "verification.json").read_text(encoding="utf-8"))
+    return next(item for item in result["checks"] if item["name"] == name)
 
 
 @unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("ffprobe"), "ffmpeg is required")
@@ -123,6 +139,88 @@ class VideoVerificationTest(unittest.TestCase):
             self.assertEqual(result["technical_gate"], "fail")
             dimensions = next(check for check in result["checks"] if check["name"] == "Dimensions")
             self.assertEqual(dimensions["status"], "FAIL")
+
+    def test_format_preset_sets_expected_dimensions(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            video = root / "sample.mp4"
+            out = root / "evidence"
+            make_video(video)
+
+            with redirect_stdout(StringIO()):
+                passed = verify_video(
+                    arguments(video, out, width=None, height=None, fps=None, format="vertical")
+                )
+
+            self.assertFalse(passed)
+            self.assertEqual(check(out, "Dimensions")["expected"], "1080x1920")
+            self.assertEqual(check(out, "Frame rate")["status"], "PASS")
+
+    def test_samples_transitions_and_flags_short_text(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            video = root / "sample.mp4"
+            manifest = root / "shots.json"
+            out = root / "evidence"
+            make_video(video)
+            manifest.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "shots": [
+                            {
+                                "id": "B01.S01",
+                                "start": 0,
+                                "end": 1.2,
+                                "text": [{"id": "B01.S01.T01", "words": 6, "settled": 0.2, "exit": 1.0}],
+                            },
+                            {
+                                "id": "B01.S02",
+                                "start": 0.8,
+                                "end": 2,
+                                "text": [{"id": "B01.S02.T01", "words": 2, "settled": 1.0, "exit": 1.9}],
+                            },
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with redirect_stdout(StringIO()):
+                passed = verify_video(arguments(video, out, manifest))
+
+            self.assertTrue(passed)
+            transition = list((out / "shot-frames").glob("*transition-to-B01.S02*"))
+            self.assertEqual(len(transition), 1)
+            self.assertIn("0001.000s", transition[0].name)
+            result = json.loads((out / "verification.json").read_text(encoding="utf-8"))
+            self.assertEqual(len(result["reading_flags"]), 1)
+            self.assertTrue(result["reading_flags"][0].startswith("B01.S01.T01"))
+            self.assertEqual(reading_floor(3), 0.8)
+            self.assertAlmostEqual(reading_floor(6), 1.8)
+
+    def test_baked_poster_matches_frame_zero(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            video = root / "sample.mp4"
+            baked = root / "final.mp4"
+            make_video(video)
+            with redirect_stdout(StringIO()):
+                poster = bake_poster(video, 1.0, baked)
+                passed = verify_video(arguments(video=baked, out=root / "good", poster=poster))
+            self.assertTrue(passed)
+            self.assertEqual(check(root / "good", "Poster frame")["status"], "PASS")
+
+            other = root / "other.jpg"
+            subprocess.run(
+                ["ffmpeg", "-hide_banner", "-loglevel", "error", "-f", "lavfi", "-i",
+                 "color=c=red:size=320x180", "-frames:v", "1", "-y", str(other)],
+                check=True,
+            )
+            with redirect_stdout(StringIO()):
+                passed = verify_video(arguments(video=video, out=root / "bad", poster=other))
+            self.assertFalse(passed)
+            self.assertEqual(check(root / "bad", "Poster frame")["status"], "FAIL")
 
 
 if __name__ == "__main__":

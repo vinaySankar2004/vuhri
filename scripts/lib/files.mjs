@@ -1,7 +1,9 @@
 import {readdir, stat} from 'node:fs/promises'
 import path from 'node:path'
 
+// .claude holds local agent state, including other sessions' worktree copies.
 const ignoredDirectories = new Set([
+  '.claude',
   '.git',
   'coverage',
   'dist',

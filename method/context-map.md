@@ -25,7 +25,7 @@ Use ordinary Markdown links to express relationships such as prerequisite, asses
 Load context in this order and stop when enough is known:
 
 1. Root teaching rules
-2. `local/NOW.md`
+2. `local/NOW.md` and `local/PROFILE.md`
 3. Relevant space context and index
 4. Relevant learner records
 5. Relevant concept records

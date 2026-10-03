@@ -18,7 +18,7 @@ class VideoProjectInitializerTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             target = Path(temporary) / "campaign"
             with redirect_stdout(StringIO()):
-                create_project(target, "Campaign", "marketing")
+                create_project(target, "Campaign", "marketing", ["vertical", "square"])
 
             required = [
                 "CONTEXT.md",
@@ -34,6 +34,7 @@ class VideoProjectInitializerTest(unittest.TestCase):
                 "07_review/shot-manifest.json",
                 "07_review/runs/.gitkeep",
                 "tools/verify_video.py",
+                "tools/bake_poster.py",
                 "memory/decisions.md",
                 "memory/failures.md",
                 "memory/lessons.md",
@@ -58,6 +59,9 @@ class VideoProjectInitializerTest(unittest.TestCase):
                 "Create portable technical and visual-review evidence",
                 (target / "tools" / "verify_video.py").read_text(encoding="utf-8"),
             )
+            platform = (target / "_config" / "platform.md").read_text(encoding="utf-8")
+            self.assertIn("vertical: 9:16, 1080x1920, 30 fps", platform)
+            self.assertIn("square: 1:1, 1080x1080, 30 fps", platform)
 
             for stage in STAGES:
                 context = target / str(stage["folder"]) / "CONTEXT.md"

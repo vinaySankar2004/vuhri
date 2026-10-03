@@ -1,4 +1,4 @@
 interface:
   display_name: "Remotion Learning Director"
   short_description: "Direct, build, verify, and publish visual learning videos"
-  default_prompt: "Use $remotion-learning-director to create or revise a Remotion learning video from the approved artifact brief, verify it, and publish it as a clickable artifact."
+  default_prompt: "Use $remotion-learning-director to create or revise a learning video from the approved artifact brief, verify it, and deliver it as a clickable link."

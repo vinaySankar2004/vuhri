@@ -27,4 +27,5 @@ Artifact count, session length, visual novelty, and automated checks alone are n
 - Marketing claims, testimonials, product behavior, rights, and platform rules are never invented.
 - Built artifacts require technical and human-interpretable verification evidence.
 - Shared improvements come from sanitized, reviewed outcomes rather than raw output.
-- Plain files remain the primary coordination layer across Codex, Claude Code, Cursor, and compatible coding agents.
+- Plain files remain the primary coordination layer across Claude Code, Codex, Cursor, and compatible coding agents.
+- People who use vuhri without developing it keep control of their computer: the agent stays inside the vuhri folder unless asked.

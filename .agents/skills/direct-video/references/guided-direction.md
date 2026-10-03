@@ -46,11 +46,22 @@ Translate that reaction into stable beat and shot deltas. Report the intended ch
 
 Use three review surfaces for a substantial video:
 
-1. Direction snapshot: purpose, hook, visual thesis, duration, and one style frame or reference board.
+1. Design board: the approval surface before production, described below.
 2. Animated rough cut: complete timing with representative visuals and provisional audio.
 3. Final cut: polished assets, audio mix, captions, platform variants, and verification.
 
 Skip a checkpoint when the user has already supplied or approved its decisions. A novice should never have to approve implementation details they cannot reasonably evaluate.
+
+## Design board
+
+Every video of 45 seconds or more, and any shorter one whose look is still open, gets a design board before production. It is one page the person opens in a browser:
+
+- the core claim, hook, and visual thesis in a sentence each;
+- palette, type, and motion character;
+- one row per beat: its ID, job, duration, and a style frame drawn with the real renderer wherever possible;
+- open questions, each with a recommended answer.
+
+Each beat carries a status of proposed, approved, or changes requested. The person approves, comments, or asks for changes in chat by beat ID, and the board and `memory/decisions.md` record the outcome. Production starts only from approved beats. Keep the board current through revisions so it stays the shared picture of the video. Turn the first board into a template in `assets/` once a second one shows what varies.
 
 ## Explain the result
 

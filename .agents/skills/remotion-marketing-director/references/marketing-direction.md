@@ -36,7 +36,7 @@ Prefer evidence the viewer can inspect:
 5. Demonstration under realistic conditions.
 6. Brand assertion, used only for positioning rather than proof.
 
-Mark provisional claims in the brief. Do not polish an unsupported claim into apparent certainty.
+Mark provisional claims in the brief. Do not polish an unsupported claim into apparent certainty. The test is what a line asserts, not how it is phrased: framing and humor may be invented, but names, numbers, capabilities, and quotes must come from the product.
 
 ## CTA
 

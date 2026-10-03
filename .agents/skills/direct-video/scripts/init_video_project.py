@@ -74,6 +74,7 @@ STAGES = [
             "Write narration, on-screen copy, claims, disclosure language, and CTA as separate tracks.",
             "Read spoken lines aloud for timing and natural phrasing.",
             "Map important words, pauses, music changes, and sound cues to intended visual events.",
+            "When music timing matters, find its beats with the direct-video skill's `analyze_music_cues.py`.",
             "For silent or music-only work, record the visual and audio plan instead of inventing narration.",
         ],
         "audit": [
@@ -111,24 +112,27 @@ STAGES = [
             "Record elements, initial state, action order, attention path, camera, audio anchors, duration, and exit condition.",
             "Name candidate semantic primitives and implementation risks.",
             "Map protected properties that later revisions should preserve.",
+            "Build `output/design-board.html` with a style frame per beat and get each beat approved.",
         ],
         "audit": [
             "The viewer has one primary attention target at a time.",
             "Camera and depth changes reveal information or strengthen the intended feeling.",
             "Every shot is independently addressable for revision and review.",
+            "Every beat on the design board is approved before production starts.",
         ],
-        "output": "output/shot-plan.md",
+        "output": "output/shot-plan.md and output/design-board.html",
     },
     {
         "folder": "06_production",
         "title": "Production",
         "job": "Build the approved shot plan as deterministic, data-addressable video code and assets.",
-        "inputs": "The shot plan, beat sheet, script, direction, `_config/`, and licensed assets.",
+        "inputs": "The shot plan, approved design board, beat sheet, script, direction, `_config/`, and licensed assets.",
         "process": [
             "Load the relevant production skill and current official implementation guidance.",
             "Preserve beat and shot IDs in scene names, data, filenames, and review stills.",
             "Keep timing, copy, theme, captions, and asset references in clear data structures.",
             "Render a complete rough cut before polishing isolated scenes.",
+            "For delivery, make the strongest settled frame the first frame with `tools/bake_poster.py`.",
         ],
         "audit": [
             "The build covers every approved beat and shot.",
@@ -143,6 +147,7 @@ STAGES = [
         "job": "Verify technical, visual, audio, platform, factual, and persuasive quality against the direction artifacts.",
         "inputs": "Production output plus all approved upstream artifacts.",
         "process": [
+            "Give transitions overlapping shot ranges and on-screen lines `text` timings in the shot manifest.",
             "Run `tools/verify_video.py` against the actual rendered file and preserve the evidence in a new `runs/` folder.",
             "Inspect the complete playback, contact sheet, one-second samples for short work, and stable-ID shot-boundary frames.",
             "Check attention, continuity, safe zones, captions, audio, claims, proof, CTA, crops, and direction alignment.",
@@ -175,6 +180,13 @@ STAGES = [
     },
 ]
 
+FORMATS = {
+    "landscape": "16:9, 1920x1080, 30 fps",
+    "vertical": "9:16, 1080x1920, 30 fps",
+    "square": "1:1, 1080x1080, 30 fps",
+}
+TOOLS = ("verify_video.py", "bake_poster.py")
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -185,6 +197,12 @@ def parse_args() -> argparse.Namespace:
         choices=("general", "marketing", "learning"),
         default="general",
         help="Project adapter to record in the workspace",
+    )
+    parser.add_argument(
+        "--format",
+        choices=sorted(FORMATS),
+        action="append",
+        help="Delivery format; repeat for each composed variant",
     )
     return parser.parse_args()
 
@@ -253,6 +271,7 @@ This workspace directs, builds, verifies, and revises one video project through 
 - `07_review/shot-manifest.json`: portable stable-ID timing for visual evidence.
 - `07_review/runs/`: immutable per-render technical and visual-review evidence.
 - `tools/verify_video.py`: agent-independent rendered-video pre-verification.
+- `tools/bake_poster.py`: makes the chosen poster frame the first frame of the delivered file.
 
 ## Operating rules
 
@@ -264,7 +283,7 @@ This workspace directs, builds, verifies, and revises one video project through 
 """
 
 
-def create_project(target: Path, title: str, kind: str) -> None:
+def create_project(target: Path, title: str, kind: str, formats: list[str] | None = None) -> None:
     target = target.expanduser().resolve()
     if target.exists():
         raise SystemExit(f"Refusing to overwrite existing path: {target}")
@@ -313,15 +332,18 @@ def create_project(target: Path, title: str, kind: str) -> None:
 - Asset ownership and license notes:
 """,
     )
+    rows = "\n".join(
+        f"|  | {name}: {FORMATS[name]} |  |  |  |  |" for name in (formats or [])
+    ) or "|  |  |  |  |  |  |"
     write_text(
         target / "_config" / "platform.md",
-        """# Platform configuration
+        f"""# Platform configuration
 
-| Placement | Aspect ratio | Duration | Safe zones | Audio and caption rules | Source and access date |
+| Placement | Format | Duration | Safe zones | Audio and caption rules | Source and access date |
 | --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  |  |
+{rows}
 
-Recheck platform guidance before production because specifications and policies change.
+Compose each format separately rather than cropping one. Recheck platform guidance before production because specifications and policies change.
 """,
     )
     write_text(
@@ -332,7 +354,8 @@ Recheck platform guidance before production because specifications and policies 
 - Extended mode: 45 to 90 seconds with sections and more review.
 - Long-form mode: more than 90 seconds with modular sequences.
 - Every interval has an intentional job, including holds and silence.
-- Every short video receives one-second sampling plus shot-boundary review.
+- Every short video receives one-second sampling plus shot-boundary and mid-transition review.
+- Every line meant to be read stays settled long enough to read (candidate floor: 0.8s up to three words, else 0.3s per word and at least 1.2s).
 - Every factual, product, performance, or customer claim is supported or marked provisional.
 - Every revision preserves unaffected stable IDs and protected properties.
 """,
@@ -352,12 +375,12 @@ Recheck platform guidance before production because specifications and policies 
         json.dumps({"schema_version": 1, "shots": []}, indent=2),
     )
     write_text(target / "07_review" / "runs" / ".gitkeep", "")
-    verifier_source = Path(__file__).with_name("verify_video.py")
-    if not verifier_source.is_file():
-        raise RuntimeError(f"Missing bundled verifier: {verifier_source}")
-    verifier_target = target / "tools" / "verify_video.py"
-    verifier_target.parent.mkdir(parents=True)
-    shutil.copy2(verifier_source, verifier_target)
+    (target / "tools").mkdir(parents=True)
+    for tool in TOOLS:
+        source = Path(__file__).with_name(tool)
+        if not source.is_file():
+            raise RuntimeError(f"Missing bundled tool: {source}")
+        shutil.copy2(source, target / "tools" / tool)
     write_text(
         target / "memory" / "decisions.md",
         "# Decisions\n\nRecord approved choices, their rationale, date, and affected IDs.\n",
@@ -400,7 +423,7 @@ Record semantic primitives, composition patterns, style systems, and examples ex
 def main() -> None:
     args = parse_args()
     title = args.title or args.target.name.replace("-", " ").replace("_", " ").title()
-    create_project(args.target, title, args.kind)
+    create_project(args.target, title, args.kind, args.format)
 
 
 if __name__ == "__main__":

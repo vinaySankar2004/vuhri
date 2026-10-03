@@ -62,6 +62,7 @@ These are semantic choices. The build layer maps them to coordinates, masks, spr
 - Use anticipation before a consequential event and a hold after it.
 - Make exits cheaper than entrances unless the disappearance is the point.
 - Let transitions preserve an object, shape, sound, direction, or idea when continuity matters.
+- Between two busy layouts, stagger the change (old content out, then new in) or push one frame over the other. A plain crossfade makes a muddy double exposure, and a dip to an empty frame reads as flicker.
 - Record what remains static. Negative motion is part of direction.
 - Keep text, narration, and the active visual from competing for the same cognitive moment.
 

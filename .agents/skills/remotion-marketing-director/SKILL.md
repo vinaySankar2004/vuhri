@@ -5,7 +5,7 @@ description: Direct, build, test, and revise short Remotion marketing videos, pr
 
 # Remotion Marketing Director
 
-Create a persuasive, truthful video whose product, proof, brand, and action remain clear under motion. Use `direct-video` for the general direction artifacts and revision addresses. Use `remotion-best-practices` for implementation and rendering mechanics.
+Create a persuasive, truthful video whose product, proof, brand, and action remain clear under motion. `direct-video` supplies the direction artifacts, renderer choice, verification, and revision addresses. This skill adds the marketing layer.
 
 ## Guide the user
 
@@ -15,7 +15,7 @@ Own professional choices such as duration, shot density, camera behavior, format
 
 ## Lock the marketing contract
 
-Read [marketing direction](references/marketing-direction.md). Identify:
+When the product is a codebase or live website, gather its copy, identity, and real flow first with [product intake](references/product-intake.md). Then read [marketing direction](references/marketing-direction.md) and identify:
 
 - campaign or asset job;
 - audience state before viewing;
@@ -41,11 +41,9 @@ Choose one:
 
 Default to 2.5D or hybrid for frontend-inspired marketing. Use full 3D only when spatial form, material, camera movement, or product tangibility carries the argument.
 
-## Respect the quality envelope
+## Keep it short
 
-For rapid high-polish work, default to 6 to 30 seconds and treat 45 seconds as the normal upper edge. A 45 to 90 second marketing film needs explicit sections, a stronger evidence plan, and more review. Above 90 seconds, switch to a modular long-form workflow.
-
-Map every second or intentional hold to a job. In ads, the opening must establish a useful premise quickly, but do not force a universal hook formula. Verify current platform guidance before production because placements and policies change.
+Default to 6 to 30 seconds for marketing. Longer films follow `direct-video`'s sizing and need a stronger evidence plan. In ads, the opening must establish a useful premise quickly, but do not force a universal hook formula. Verify current platform guidance before production because placements and policies change.
 
 ## Build variants deliberately
 
@@ -58,7 +56,7 @@ Change one major hypothesis per variant when the result will be compared. Give e
 
 ## Verify marketing and production
 
-Use the `direct-video` observability and pre-verification workflow against the actual rendered file. Preserve metadata, diagnostic logs, interval frames, stable-ID shot frames, a contact sheet, and the completed visual-review record. Render and inspect the full video. Review at least one frame per second for work up to 45 seconds, plus all shot boundaries. Check:
+Use the `direct-video` verification workflow on the actual rendered file, and bake the strongest settled frame in as the poster before delivery. Beyond its checks, confirm:
 
 - product recognition and accurate behavior;
 - hook, proof, brand, and CTA timing;
@@ -69,5 +67,3 @@ Use the `direct-video` observability and pre-verification workflow against the a
 - depth, camera, and effects against message readability;
 - variant differences and filenames;
 - exact alignment with the approved direction artifacts.
-
-Use the `direct-video` revision protocol for feedback. Do not regenerate unaffected beats.

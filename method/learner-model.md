@@ -45,8 +45,8 @@ Retain supporting evidence and counterevidence. Update the scope or current inte
 Use three layers:
 
 1. Session evidence records meaningful events and attempts.
-2. Atomic learner records distill reusable beliefs.
-3. Compact indexes route agents to relevant records.
+2. Atomic learner records distill reusable beliefs. Standing preferences live one per file in `local/preferences/`, each with its evidence.
+3. Compact indexes route agents to relevant records. `local/PROFILE.md` indexes the preferences in one line each and is read at every session start.
 
 Archive old sessions when needed, but preserve links from active learner records to their evidence.
 

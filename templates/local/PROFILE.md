@@ -1,12 +1,12 @@
 # Learner profile
 
-This file routes to atomic learner records. Keep it concise and evidence-based.
+Read at every session start, so keep it under 400 words. Each standing preference is one line here, linking to its file under `preferences/` where the evidence lives.
 
 ## Identity and boundaries
 
 Not set.
 
-## Confirmed preferences
+## Standing preferences
 
 None yet.
 
@@ -17,4 +17,3 @@ None yet.
 ## Long-term goals
 
 None yet.
-

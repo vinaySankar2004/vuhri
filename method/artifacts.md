@@ -1,61 +1,52 @@
-# Learning artifacts
+# Artifacts
 
-An artifact exists to support a defined learning action. Visual novelty alone is insufficient.
+An artifact is anything vuhri builds to be seen: a web page, a document, a deck, or a video. It earns its place only when a smaller explanation cannot do the job. Personal artifacts and their evidence live under `local/artifacts/`.
 
-## Decision
+## Choose the smallest fit
 
-Before building, state the concept, learning objective, learner action, misconception or difficulty, reason for the format, source basis, and success evidence. Prefer a small example, trace, sketch, or table when it can do the job.
+| Job | Build | Route | Done when |
+| --- | --- | --- | --- |
+| Show something during a conversation | A sentence, table, trace, or sketch in chat | Answer directly; mathematics follows [math-notation.md](math-notation.md) | It reads clearly where it is shown |
+| Let someone see or manipulate a concept | An interactive page | `build-web-artifact`, then `verify-web-artifact` | All four lanes pass in a real browser |
+| Notes read and annotated over months | An accumulating document | [Accumulating documents](#accumulating-documents) | Every new page is inspected in print |
+| A talk | A deck set from one outline | [Slide decks](#slide-decks) | Every slide stepped, every printed page inspected |
+| A loop, sting, or micro-animation | One shot, 2 to 6 seconds | `direct-video`: one shot sentence, then build | Verifier and visual pass |
+| A short video | Beats and shots, 6 to 45 seconds | `direct-video` brief, beat sheet, and shot plan, then build | One frame per second and every boundary reviewed |
+| A longer video | A staged workspace, 45 seconds and up | `direct-video` with `init_video_project.py` and a design board; chapters past 90 seconds | Board approved, then each section reviewed |
+| A change to any of these | The smallest stable target | The medium's revision rules; for video, the revision protocol | The change and its seams are rechecked |
 
-## Lifecycle
+For learning, start with `direct-learning-artifact` whatever the medium. It may conclude that a chat answer is enough. Learning videos add `remotion-learning-director`; marketing, ads, and launch clips add `remotion-marketing-director`.
 
-```text
-learning need
-  -> brief
-  -> build
-  -> technical verification
-  -> instructional verification
-  -> learner use
-  -> revision or archive
-```
+An artifact is unfinished until it has been exercised in its actual format: clicked through in a browser, printed and inspected page by page, or played with sound.
 
-Useful states are `draft`, `built`, `technically-verified`, `instructionally-verified`, `used`, `revised`, and `archived`.
+## Learning artifacts
+
+Before building, state the concept, learning objective, learner action, misconception or difficulty, reason for the format, source basis, and success evidence. Track state as `draft`, `built`, `technically-verified`, `instructionally-verified`, `used`, `revised`, or `archived`.
 
 ## Interactive websites
 
-Build from the shared artifact kit when its primitives fit. Keep domain logic local to the artifact. Promote a new shared component only after real reuse or a clear repeated need.
-
-Verification has four lanes:
-
-- Build integrity
-- Interaction integrity
-- Visual and accessibility integrity
-- Instructional integrity
-
-Run the application in a real browser. Exercise expected paths, incorrect actions, reset, edge cases, keyboard use, responsive layouts, and browser errors. Confirm that the displayed state and feedback match the underlying concept.
+Build from the shared artifact kit when its primitives fit. Keep domain logic local to the artifact. Promote a new shared component only after real reuse or a clear repeated need. `verify-web-artifact` defines the four verification lanes.
 
 ## Accumulating documents
 
 Some artifacts are read over months rather than used once. A course or project notebook grows
 a section at a time, and the learner annotates their copy and inserts pages of their own.
 
-The copy they annotate is the only place their work exists. Regenerating the whole document
-destroys it silently, so a new section is rendered on its own and spliced into the file they
-return. Their pages are copied through untouched, never rebuilt.
+The copy they annotate is the only place their work exists, so the document is never
+regenerated. A new section is rendered alone and spliced into the file they return.
 
 **Ownership decides what may be rewritten.** The contents page belongs to the document and is
-replaced whenever it goes stale. Every other page belongs to the learner from the moment it is
-delivered. A correction to a section already issued is therefore an inserted page, not a
-replacement of the original, and the document accumulates errata rather than staying pristine.
-That is the correct trade: a clean document is worth less than a term of their annotation.
+replaced when it goes stale. Every other page belongs to the learner once delivered, so a
+correction is an inserted page, not a replacement. A clean document is worth less than a term
+of their annotation.
 
 - Keep one source file that produces both the live page and the export, so the two cannot drift.
-- Give that source a way to render a named subset of itself, which is what makes a clean splice
-  possible.
-- Inspect the returned file before placing anything. The learner's own inserted pages mean the
-  layout cannot be assumed.
+- Give that source a way to render a named subset of itself, which makes a clean splice possible.
+- Inspect the returned file before placing anything. Their inserted pages mean the layout
+  cannot be assumed.
 - Keep the filename stable for the life of the document.
-- A destructive option, such as replacing a stale contents page, needs their confirmation that
-  the pages being discarded are unmarked.
+- Assume every returned page is marked. Tablet exports often flatten ink into the page, so an
+  annotation count of zero proves nothing. Replacing any page needs their confirmation.
 
 `scripts/splice-notes-pdf.py` implements this for an HTML source and a PDF export.
 
@@ -93,10 +84,7 @@ stable slide IDs feeds every output, so they cannot drift.
 Use vuhri's design tokens in `apps/artifact-studio/src/styles.css` unless the user names
 another system. Before handing a deck over, step every slide forwards and back in a real
 browser and inspect every printed page. Keep the outputs in the project's `final/` folder.
-When the project ends, keep `final/` and remove the intermediates that produced it.
 
 ## Video
 
-Educational direction and technical Remotion construction are separate concerns. The general `direct-video` skill defines editable direction artifacts and stable revision targets. The `remotion-learning-director` skill adds the learning objective, misconception, prediction or retrieval moment, source requirements, and companion learning check. Official Remotion skills handle technical creation and rendering. When Remotion is unavailable, a page that draws any frame from a time value, captured frame by frame and encoded with ffmpeg, is an acceptable renderer, with the same beat IDs and verification.
-
-Rendered video verification should inspect frames, pacing, captions, audio, clipping, synchronization, accuracy, distracting motion, and alignment with the approved beat sheet and shot plan. Run technical checks against the actual exported media and preserve metadata, sampled frames, stable-ID shot frames, contact sheets, diagnostics, and a visual-review record. Automated checks do not stand in for agent playback and visual inspection.
+`direct-video` owns direction, rendering, verification, and revision for every video, with an adapter for learning or marketing constraints. A video that follows a deck takes the outline's slide IDs as its beat IDs.

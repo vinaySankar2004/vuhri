@@ -18,6 +18,11 @@ from pathlib import Path
 from typing import Any
 
 
+FORMATS = {"landscape": (1920, 1080), "vertical": (1080, 1920), "square": (1080, 1080)}
+DEFAULT_FPS = 30.0
+POSTER_MIN_SSIM = 0.95
+
+
 @dataclass
 class Check:
     name: str
@@ -26,10 +31,21 @@ class Check:
     actual: str
 
 
+def reading_floor(words: int) -> float:
+    """Seconds a line must stay settled: 0.8 for up to three words, else 0.3 per word, at least 1.2."""
+    return 0.8 if words <= 3 else max(1.2, 0.3 * words)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("video", type=Path, help="Rendered video to verify")
     parser.add_argument("--out", type=Path, required=True, help="New evidence directory")
+    parser.add_argument(
+        "--format",
+        choices=sorted(FORMATS),
+        help="Expected preset: landscape 1920x1080, vertical 1080x1920, square 1080x1080, 30 fps",
+    )
+    parser.add_argument("--poster", type=Path, help="Poster image that frame 0 must match")
     parser.add_argument(
         "--interval",
         type=float,
@@ -212,9 +228,82 @@ def load_manifest(path: Path | None, duration: float) -> tuple[dict[str, Any] | 
         if index and start > previous_end + 0.02:
             warnings.append(f"Gap before {shot_id}: {previous_end:.3f}s to {start:.3f}s")
         if index and start < previous_end - 0.02:
-            warnings.append(f"Overlap at {shot_id}: starts {start:.3f}s before {previous_end:.3f}s")
+            warnings.append(
+                f"Overlap at {shot_id}: starts {start:.3f}s before {previous_end:.3f}s, sampled as a transition"
+            )
         previous_end = max(previous_end, end)
+        for line in shot.get("text", []):
+            validate_text_line(shot_id, line, duration)
     return data, warnings
+
+
+def validate_text_line(shot_id: str, line: Any, duration: float) -> None:
+    if not isinstance(line, dict):
+        raise ValueError(f"Text entries in {shot_id} must be objects")
+    line_id = str(line.get("id", ""))
+    safe_id(line_id)
+    try:
+        words = int(line["words"])
+        settled = float(line["settled"])
+        exit_time = float(line["exit"])
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError(f"Text {line_id} needs numeric words, settled, and exit values") from error
+    if words < 1 or settled < 0 or exit_time <= settled or exit_time > duration + 0.15:
+        raise ValueError(f"Text {line_id} has an invalid hold: {settled} to {exit_time}")
+
+
+def manifest_transitions(manifest: dict[str, Any] | None) -> list[dict[str, Any]]:
+    """Consecutive shots whose ranges overlap are joined by a transition."""
+    if manifest is None:
+        return []
+    shots = manifest["shots"]
+    transitions = []
+    for previous, current in zip(shots, shots[1:]):
+        start = float(current["start"])
+        end = min(float(previous["end"]), float(current["end"]))
+        if start < end - 0.02:
+            transitions.append(
+                {"from": str(previous["id"]), "to": str(current["id"]), "mid": (start + end) / 2}
+            )
+    return transitions
+
+
+def reading_flags(manifest: dict[str, Any] | None) -> list[str]:
+    if manifest is None:
+        return []
+    flags = []
+    for shot in manifest["shots"]:
+        for line in shot.get("text", []):
+            words = int(line["words"])
+            hold = float(line["exit"]) - float(line["settled"])
+            floor = reading_floor(words)
+            if hold < floor - 0.005:
+                flags.append(
+                    f"{line['id']}: settled for {hold:.2f}s, {words} words need {floor:.2f}s"
+                )
+    return flags
+
+
+def poster_similarity(video: Path, poster: Path) -> float:
+    result = run(
+        [
+            "ffmpeg",
+            "-hide_banner",
+            "-i",
+            str(video),
+            "-i",
+            str(poster),
+            "-filter_complex",
+            "[0:v]trim=end_frame=1,format=yuv420p[a];[1:v]format=yuv420p[b];[a][b]ssim",
+            "-f",
+            "null",
+            "-",
+        ]
+    )
+    match = re.search(r"All:([0-9.]+)", result.stderr)
+    if not match:
+        raise RuntimeError("Could not compare frame 0 with the poster")
+    return float(match.group(1))
 
 
 def extract_shot_frames(
@@ -222,6 +311,7 @@ def extract_shot_frames(
 ) -> list[dict[str, Any]]:
     if manifest is None:
         return []
+    transitions = manifest_transitions(manifest)
     destination.mkdir(parents=True)
     evidence: list[dict[str, Any]] = []
     for shot_index, shot in enumerate(manifest["shots"], 1):
@@ -243,6 +333,17 @@ def extract_shot_frames(
             )
             extract_frame(video, timestamp, destination / filename)
             evidence.append({"shot_id": shot_id, "label": label, "time": timestamp, "file": filename})
+        transition = next((item for item in transitions if item["from"] == shot_id), None)
+        if transition:
+            mid = transition["mid"]
+            filename = (
+                f"shot-{shot_index:04d}-{safe_id(shot_id)}-99-transition-to-"
+                f"{safe_id(transition['to'])}-{mid:08.3f}s.png"
+            )
+            extract_frame(video, mid, destination / filename)
+            evidence.append(
+                {"shot_id": shot_id, "label": f"transition-to-{transition['to']}", "time": mid, "file": filename}
+            )
     return evidence
 
 
@@ -312,6 +413,7 @@ def build_report(
     shot_count: int,
     diagnostics: dict[str, int],
     manifest_warnings: list[str],
+    text_flags: list[str],
     tool_versions: dict[str, str],
 ) -> str:
     rows = "\n".join(
@@ -319,6 +421,7 @@ def build_report(
     )
     warnings = manifest_warnings or ["None."]
     warning_lines = "\n".join(f"- {warning}" for warning in warnings)
+    text_lines = "\n".join(f"- {flag}" for flag in text_flags) or "- None."
     technical_status = "PASS" if all(check.status == "PASS" for check in checks) else "FAIL"
     return f"""# Video pre-verification report
 
@@ -349,6 +452,12 @@ def build_report(
 - Silent audio segments of at least 1 second: {diagnostics['silence_segments']}
 
 These flags require interpretation. A deliberate black frame, hold, or silent beat is not automatically a defect.
+
+## Reading-time flags
+
+Lines from the manifest's `text` entries that leave before the reading floor. A line that is texture rather than something to read may stay shorter.
+
+{text_lines}
 
 ## Shot-manifest warnings
 
@@ -442,16 +551,25 @@ def verify_video(args: argparse.Namespace) -> bool:
     duration = media_duration(metadata, stream)
     has_audio = bool(audio_streams)
 
+    expected_width, expected_height, expected_fps = args.width, args.height, args.fps
+    preset = getattr(args, "format", None)
+    if preset:
+        preset_width, preset_height = FORMATS[preset]
+        expected_width = preset_width if expected_width is None else expected_width
+        expected_height = preset_height if expected_height is None else expected_height
+        expected_fps = DEFAULT_FPS if expected_fps is None else expected_fps
+
     checks: list[Check] = []
     add_check(checks, "Video stream", True, "present", f"{stream.get('codec_name', 'unknown')} video")
     add_check(
         checks,
         "Dimensions",
-        (args.width is None or width == args.width) and (args.height is None or height == args.height),
+        (expected_width is None or width == expected_width)
+        and (expected_height is None or height == expected_height),
         (
-            f"{args.width if args.width is not None else '*'}x"
-            f"{args.height if args.height is not None else '*'}"
-            if args.width is not None or args.height is not None
+            f"{expected_width if expected_width is not None else '*'}x"
+            f"{expected_height if expected_height is not None else '*'}"
+            if expected_width is not None or expected_height is not None
             else "record only"
         ),
         f"{width}x{height}",
@@ -459,8 +577,8 @@ def verify_video(args: argparse.Namespace) -> bool:
     add_check(
         checks,
         "Frame rate",
-        args.fps is None or abs(fps - args.fps) <= 0.05,
-        f"{args.fps:.3f} fps" if args.fps is not None else "record only",
+        expected_fps is None or abs(fps - expected_fps) <= 0.05,
+        f"{expected_fps:.3f} fps" if expected_fps is not None else "record only",
         f"{fps:.3f} fps",
     )
     add_check(
@@ -482,8 +600,25 @@ def verify_video(args: argparse.Namespace) -> bool:
         f"{len(audio_streams)} stream(s)",
     )
 
+    poster = getattr(args, "poster", None)
+    if poster is not None:
+        poster = poster.expanduser().resolve()
+        try:
+            similarity = poster_similarity(video, poster)
+            actual = f"SSIM {similarity:.3f}"
+        except RuntimeError as error:
+            similarity, actual = 0.0, str(error).splitlines()[0]
+        add_check(
+            checks,
+            "Poster frame",
+            similarity >= POSTER_MIN_SSIM,
+            f"frame 0 matches {poster.name} (SSIM >= {POSTER_MIN_SSIM})",
+            actual,
+        )
+
     manifest_path = args.manifest.expanduser().resolve() if args.manifest else None
     manifest, manifest_warnings = load_manifest(manifest_path, duration)
+    text_flags = reading_flags(manifest)
     if manifest is not None:
         (out / "shot-manifest.json").write_text(
             json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
@@ -524,6 +659,7 @@ def verify_video(args: argparse.Namespace) -> bool:
         "sampling": {"interval_seconds": args.interval, "overview_frames": len(frames)},
         "shot_evidence": shot_evidence,
         "manifest_warnings": manifest_warnings,
+        "reading_flags": text_flags,
         "diagnostics": diagnostic_counts,
         "checks": [check.__dict__ for check in checks],
         "tool_versions": versions,
@@ -537,6 +673,7 @@ def verify_video(args: argparse.Namespace) -> bool:
             len(shot_evidence),
             diagnostic_counts,
             manifest_warnings,
+            text_flags,
             versions,
         ),
         encoding="utf-8",

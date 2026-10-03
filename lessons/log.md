@@ -11,6 +11,34 @@ Use this format:
 - Status: proposed
 ```
 
+## 2026-10-03: Consolidate rules, roles, and housekeeping
+
+- Evidence: Rules had spread across four homes that drifted apart. The repository, `local/`, an
+  agent-only memory of 21 files that other agents could not see, and two Remotion skills
+  installed for one agent only. `PROFILE.md` had not changed since 2026-09-14 while newer
+  preferences contradicted it. The learner is sharing vuhri with non-technical people who are
+  wary of an agent's reach, and asked for space awareness, plain update prompts, and alignment
+  after updates.
+- Proposed change: Make `AGENTS.md` a routing file under a word budget, `method/artifacts.md`
+  the single map for visual work, and `method/housekeeping.md` the home for roles, scope,
+  updates, disk space, and consolidation, backed by `npm run housekeeping`, `MIGRATIONS.md`,
+  and the `consolidate` skill. Move personal rules into `local/preferences/`.
+- Scope and exclusions: Mac-wide cleanup stays on request. Nothing is deleted without a yes,
+  and removal always goes through the Trash.
+- Status: accepted
+
+## 2026-10-03: Adopt brag's techniques without its runtime
+
+- Evidence: A review of the third-party `brag` launch-video skill (latent-spaces/brag, MIT)
+  found useful planning rules and one small audio script, while its runtime pulled an unpinned
+  CLI with default-on telemetry and bundled music with unsettled credit terms.
+- Proposed change: Add format presets, mid-transition frames, reading-time flags, and a poster
+  check to the verifier; add `bake_poster.py` and the optional `analyze_music_cues.py`; add
+  rendering, audio-direction, and product-intake references.
+- Scope and exclusions: Its numeric rules stay candidate until vuhri's own renders confirm them.
+  No Hyperframes, tone presets, or bundled media.
+- Status: accepted
+
 ## 2026-10-03: Build a deck as local outputs from one outline
 
 - Evidence: For a one-hour family tutorial, a hosted slide artifact was rejected. The learner

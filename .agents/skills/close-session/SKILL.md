@@ -13,7 +13,7 @@ Write the session record before committing anything. Record what was demonstrate
 
 Then bring `local/NOW.md` current. It is loaded at the start of every session, so its length is a standing cost on every future session.
 
-- Budget: 450 words, enforced by `npm run check:context`.
+- Budget: 450 words, enforced by `npm run check:context`, which also holds `PROFILE.md` to 400.
 - It holds what is live: the active space and its exact continuation point, what was most recently completed, and open threads that need an action.
 - Move detail into the space, session record, or knowledge note it belongs to, and link to it. Do not restate a fact that already sits one link away.
 - Delete items that resolved. A finished thread is not context.
@@ -21,13 +21,15 @@ Then bring `local/NOW.md` current. It is loaded at the start of every session, s
 
 The same discipline applies to space `CONTEXT.md` files. If one has grown past what a reader needs to resume, split it.
 
+## Tidy up
+
+Offer to move to the Trash anything this session downloaded or generated that is no longer needed, as `method/housekeeping.md` describes. Offer the deep clean once if housekeeping reports it due.
+
 ## Checkpoint
 
-Two repositories, separate histories.
+If `local/` is its own Git repository, commit it at close without asking, once the record and `NOW.md` are current. Its contents are personal by definition, so the question is only whether the writing is accurate.
 
-`local/` is private, on `vinaySankar2004/vuhri-local`. Commit it at close without asking, once the record and `NOW.md` are current. Its contents are personal by definition, so the question is only whether the writing is accurate, not whether it is safe to store.
-
-The public `vuhri` repository holds method and tooling. Show the user what changed there and get a yes before committing.
+Only the maintainer commits to the public vuhri repository (see `method/housekeeping.md`). Show what changed there and get a yes before committing.
 
 Run the checks the change earns. Method, script, or skill changes in the public repository call for `npm run check`. A `local/` commit calls for `npm run check:privacy` and `npm run check:context`. Never force-add ignored content.
 

@@ -1,0 +1,6 @@
+# Optional dependencies for analyze_music_cues.py. Versions match the lock
+# file of the upstream script (latent-spaces/brag at cb89b9f).
+librosa==0.11.0
+numpy==2.4.6
+scipy==1.17.1
+soundfile==0.14.0

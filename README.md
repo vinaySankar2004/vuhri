@@ -11,7 +11,9 @@ npm install
 npm run setup
 ```
 
-Open the folder in Codex, Claude Code, Cursor, or another coding agent that follows repository instructions, then begin with the actual inquiry or creative request. vuhri adds structure only when continuity, evidence, sources, direction, or production make it useful.
+Open the folder in Claude Code, Codex, Cursor, or another coding agent that follows repository instructions, then begin with the actual inquiry or creative request. vuhri adds structure only when continuity, evidence, sources, direction, or production make it useful.
+
+Each session starts with `npm run housekeeping`, which reports large files and, for people who use vuhri without developing it, whether an update is ready. The agent asks before changing anything.
 
 Run the local artifact studio with:
 
@@ -30,7 +32,8 @@ npm run check
 - `AGENTS.md` contains the operating constitution.
 - `VISION.md` defines the product and its boundaries.
 - `DECISIONS.md` records settled design choices.
-- `method/` contains the learning, context, source, artifact, and writing methods.
+- `MIGRATIONS.md` lists changes an existing `local/` must be aligned to after an update.
+- `method/` contains the learning, context, source, artifact, writing, and housekeeping methods.
 - `.agents/skills/` contains reusable direction, production, verification, and repository workflows.
 - `templates/local/` is the public template for private working state.
 - `apps/artifact-studio/` hosts local interactive artifacts.

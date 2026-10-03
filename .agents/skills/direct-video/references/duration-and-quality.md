@@ -27,6 +27,10 @@ For short work, keep a second-level ledger:
 | --- | --- | --- | --- | --- | --- |
 | 00:00 to 00:01 |  |  |  |  |  |
 
+## Reading time (candidate)
+
+Pace comes from motion and cuts, never from pulling text away early. A line the viewer must read stays fully settled, counted from when the whole line is on screen, for at least 0.8 seconds if it has three words or fewer, otherwise 0.3 seconds per word and at least 1.2 seconds. Bring text in fast, then hold it. If a scene carries more text than its duration allows, cut copy or split the scene. Text that is only texture is exempt. Record each line's settled and exit times as `text` entries in the shot manifest so the verifier flags short holds. These numbers come from the brag project and stay candidate until vuhri's renders confirm them.
+
 ## Per-second review
 
 For videos up to 45 seconds, sample at least one frame per second and every shot transition. Review the surrounding motion, not only the still.

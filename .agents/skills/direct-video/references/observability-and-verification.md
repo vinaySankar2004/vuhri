@@ -23,8 +23,10 @@ New staged projects contain `tools/verify_video.py`. Run it against the actual e
 python3 tools/verify_video.py 06_production/out/final.mp4 \
   --out 07_review/runs/2026-08-24T120000Z \
   --manifest 07_review/shot-manifest.json \
-  --width 1080 --height 1920 --fps 30 --duration 15 --require-audio
+  --format vertical --duration 15 --require-audio --poster 06_production/out/final.jpg
 ```
+
+`--format` sets the expected size and 30 fps; `--width`, `--height`, and `--fps` override it. `--poster` checks that frame 0 matches the poster written by `bake_poster.py`.
 
 Use one-second overview sampling for work up to 45 seconds. For longer work, choose a documented interval and preserve shot-boundary sampling through the manifest.
 
@@ -42,13 +44,15 @@ Use seconds in the portable manifest. Preserve the same IDs used in the beat she
       "id": "B01.S01",
       "start": 0,
       "end": 2.4,
-      "review_times": [0.6, 1.8]
-    }
+      "review_times": [0.6, 1.8],
+      "text": [{"id": "B01.S01.T01", "words": 5, "settled": 0.5, "exit": 2.3}]
+    },
+    {"id": "B01.S02", "start": 2.1, "end": 4.0}
   ]
 }
 ```
 
-The verifier extracts every shot's entry and exit plus optional internal moments. Gaps and overlaps are reported for interpretation. Invalid ranges and duplicate IDs stop the run.
+The verifier extracts every shot's entry and exit plus optional internal moments. Consecutive shots whose ranges overlap are joined by a transition, and the middle of each overlap is sampled. Optional `text` entries give each readable line's word count and settled and exit times, and lines that leave before the reading floor in [duration and quality](duration-and-quality.md) are flagged. Gaps are reported for interpretation. Invalid ranges, invalid text timings, and duplicate IDs stop the run.
 
 ## Evidence produced
 
@@ -58,13 +62,13 @@ Every run contains:
 - `verification.json`: machine-readable checks and gate status;
 - `verification-report.md`: concise technical result and handoff condition;
 - `frames/`: interval samples from the full timeline plus the final state;
-- `shot-frames/`: stable-ID entry, exit, and requested review frames;
+- `shot-frames/`: stable-ID entry, exit, requested review, and mid-transition frames;
 - `contact-sheet.png`: a fast visual scan of the complete timeline;
 - `shot-contact-sheet.png`: a fast stable-ID boundary scan when a manifest is supplied;
 - `diagnostics.log`: raw black, freeze, and silence detector output;
 - `visual-review.md`: the agent playback and visual-review record.
 
-Black, freeze, and silence detections are flags, not automatic creative failures. A hold or pause may be intentional. The agent must interpret each flag against the direction and audio plan.
+Black, freeze, silence, and reading-time detections are flags, not automatic creative failures. A hold or pause may be intentional. The agent must interpret each flag against the direction and audio plan.
 
 ## Agent visual pass
 
