@@ -11,6 +11,33 @@ Use this format:
 - Status: proposed
 ```
 
+## 2026-10-03: Build a deck as local outputs from one outline
+
+- Evidence: For a one-hour family tutorial, a hosted slide artifact was rejected. The learner
+  wanted decks as the repository's own work: a PDF to share, a click-through page whose arrow
+  keys play animations for live talks, and a video that follows the same deck. One outline
+  produced all three plus presenter notes in the time available, and printing the
+  click-through page kept the PDF in step with it.
+- Proposed change: Add a slide decks section to `method/artifacts.md` naming the outputs, the
+  single outline, vuhri's design tokens, the verification, and keeping only `final/` at
+  project end.
+- Scope and exclusions: Applies to decks and talks. A deck skill with a reusable
+  click-through template waits until a second deck shows what varies.
+- Status: accepted
+
+## 2026-10-03: Render video without Remotion when its dependencies are absent
+
+- Evidence: Remotion dependencies had been cleared from the local projects, and the talk was
+  under an hour away. A page that draws any frame from a time value, captured frame by frame
+  in headless Chromium and encoded with ffmpeg, produced a verified four-minute cut keyed by
+  beat IDs. Narration from the built-in macOS voice was aligned by re-rendering beats longer
+  rather than speeding the voice.
+- Proposed change: Note in the video section of `method/artifacts.md` that this renderer is
+  acceptable when Remotion is unavailable, with the same beat IDs and verifier.
+- Scope and exclusions: Remotion stays the default for sustained video work. The built-in
+  voice is provisional, and a public master needs a reviewed voice and a listening pass.
+- Status: accepted
+
 ## 2026-09-21: Write mathematics for the medium it is read in
 
 - Evidence: A projection derivation written inline in chat mixed unicode subscripts with

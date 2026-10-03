@@ -77,8 +77,26 @@ Three failures recur and none are visible without looking at every rendered page
 Re-render and inspect every page after any content change, because new content moves every
 page break after it.
 
+## Slide decks
+
+A deck is built locally as the user's own work, not in a hosted slide tool. One outline with
+stable slide IDs feeds every output, so they cannot drift.
+
+- `presentation.html` is the live version: one self-contained page where the arrow keys play
+  each slide's builds, then advance. It is as close to a video as a click-through can be.
+- `deck.pdf` is printed from that page in a mode that shows every build at once. It is the
+  copy to share.
+- `video.mp4`, when wanted, follows the outline's order and parts. Narrate it when people
+  will watch without the presenter.
+- Presenter notes, when asked for, hold the script and a checklist.
+
+Use vuhri's design tokens in `apps/artifact-studio/src/styles.css` unless the user names
+another system. Before handing a deck over, step every slide forwards and back in a real
+browser and inspect every printed page. Keep the outputs in the project's `final/` folder.
+When the project ends, keep `final/` and remove the intermediates that produced it.
+
 ## Video
 
-Educational direction and technical Remotion construction are separate concerns. The general `direct-video` skill defines editable direction artifacts and stable revision targets. The `remotion-learning-director` skill adds the learning objective, misconception, prediction or retrieval moment, source requirements, and companion learning check. Official Remotion skills handle technical creation and rendering.
+Educational direction and technical Remotion construction are separate concerns. The general `direct-video` skill defines editable direction artifacts and stable revision targets. The `remotion-learning-director` skill adds the learning objective, misconception, prediction or retrieval moment, source requirements, and companion learning check. Official Remotion skills handle technical creation and rendering. When Remotion is unavailable, a page that draws any frame from a time value, captured frame by frame and encoded with ffmpeg, is an acceptable renderer, with the same beat IDs and verification.
 
 Rendered video verification should inspect frames, pacing, captions, audio, clipping, synchronization, accuracy, distracting motion, and alignment with the approved beat sheet and shot plan. Run technical checks against the actual exported media and preserve metadata, sampled frames, stable-ID shot frames, contact sheets, diagnostics, and a visual-review record. Automated checks do not stand in for agent playback and visual inspection.
