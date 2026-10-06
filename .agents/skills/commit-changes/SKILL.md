@@ -20,6 +20,7 @@ Several sessions may run at once, often in the same space and the same files. A 
 - Stage the paths this session created or edited, never `git add .` or `-A`. Commit everything only when the user says so explicitly.
 - A file other sessions also changed gets hunk-level staging. Stage only this session's hunks. Build a patch from `git diff <file>`, keep this session's hunks, and apply it with `git apply --cached`. Then confirm with `git diff --cached` that nothing foreign went in.
 - If a hunk mixes this session's lines with another session's, or context was summarized and ownership is unclear, ask before staging it.
+- If the index already holds another session's staged changes, commit through a temporary index so they stay staged. Set `GIT_INDEX_FILE` to a new file in the Git directory, run `git read-tree HEAD`, and add this session's paths there. For a shared file, write this session's version with `git hash-object -w` and stage it with `git update-index --cacheinfo`. Commit, delete the temporary index, then run `git reset -q -- <those paths>` in the real index.
 - Report what was left unstaged, so the other sessions' work is visibly untouched.
 
 ## Form the checkpoint
@@ -34,7 +35,7 @@ Create a new commit. Do not amend, rewrite history, squash, or change authorship
 
 ## Push only when authorized
 
-A request to commit is local. Push only when the user also asks to push or has clearly established that the requested checkpoint should be synchronized now.
+A request to commit is local. Push only when the user also asks to push or has clearly established that the requested checkpoint should be synchronized now. The one standing case is `local/` at session close, which `close-session` pushes when it has a remote.
 
 Before pushing, inspect the remote and upstream. Use an ordinary push. Never force-push unless the user explicitly requests the history rewrite and the exact target is verified.
 

@@ -1,6 +1,6 @@
 ---
 name: close-session
-description: Close a sustained session. Bring the session record and NOW.md current, hold them to their length budgets, then checkpoint both repositories. Use when the user says they are done, stopping, wrapping up, or when a sustained piece of work reaches a natural end.
+description: Close a sustained session. Bring the session record, NOW.md, and every document the session touched current and concise, then commit and push local/ if it is a Git repository. Use when the user says "close the session", or that they are done, stopping, or wrapping up, or when a sustained piece of work reaches a natural end.
 ---
 
 # Close a session
@@ -19,7 +19,15 @@ Then bring `local/NOW.md` current. It is loaded at the start of every session, s
 - Delete items that resolved. A finished thread is not context.
 - Convert relative dates to absolute ones.
 
-The same discipline applies to space `CONTEXT.md` files. If one has grown past what a reader needs to resume, split it.
+## Freshness pass
+
+The same discipline applies to every document the session created or edited: space `CONTEXT.md` files, procedures, preferences, `PROFILE.md`, and anything linking to them. For each one:
+
+- It states the current status. Rewrite status lines the session changed, and delete what resolved.
+- Each fact lives in one place. Replace a repeat with a link.
+- It stays as short as `method/writing.md` asks. If a `CONTEXT.md` has grown past what a reader needs to resume, split it.
+
+An explicit user rule from the session goes into `local/` once, where it belongs.
 
 ## Tidy up
 
@@ -27,7 +35,7 @@ Offer to move to the Trash anything this session downloaded or generated that is
 
 ## Checkpoint
 
-If `local/` is its own Git repository, commit it at close without asking, once the record and `NOW.md` are current. Its contents are personal by definition, so the question is only whether the writing is accurate.
+If `local/` is its own Git repository, commit it at close without asking, once the freshness pass is done. Its contents are personal by definition, so the question is only whether the writing is accurate. Commit only this session's work, since other sessions may have changes in the same tree.
 
 Only the maintainer commits to the public vuhri repository (see `method/housekeeping.md`). Show what changed there and get a yes before committing.
 
@@ -35,9 +43,9 @@ Run the checks the change earns. Method, script, or skill changes in the public 
 
 Follow `.agents/skills/commit-changes/SKILL.md` for message style, staging, and the rules on amending and history. Do not create tags.
 
-## Push separately
+## Push
 
-Committing is not pushing. Push only when the user asks or has said to keep a repository synchronized. Report what is committed locally and what has reached the remote, and do not describe one as the other.
+Most users' `local/` is a plain folder, so the freshness pass is the whole close for them. When `local/` is a Git repository with a remote, push it after the commit, so the closed session is backed up and can resume on another machine. Push the public repository only when the user asks. Report what is committed locally and what has reached the remote, and do not describe one as the other.
 
 ## Report
 
