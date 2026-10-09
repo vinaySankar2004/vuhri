@@ -2,6 +2,18 @@
 
 This file records choices that should remain stable until new evidence justifies changing them.
 
+## 2026-10-08
+
+### Use the built-in browser first and Claude in Chrome as the fallback
+
+The desktop app's Browser pane needs no setup and stays apart from the person's own
+browsers, so it is the default. Claude in Chrome is Anthropic's supported way to work in the
+person's real browser, and it is used only when the pane fails, such as on a passkey sign-in.
+Driving Safari through AppleScript was reviewed and rejected. It needs Safari's "Allow
+JavaScript from Apple Events", a single switch that lets any app with Automation access run
+code in every open tab, plus up to three more macOS permissions, and it cannot reliably reach
+private windows. See `method/browsers.md`.
+
 ## 2026-10-03
 
 ### Verify Claude Code first

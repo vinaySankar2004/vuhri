@@ -34,6 +34,7 @@ The host tool still keeps its own transcript, so incognito governs vuhri's memor
 | Learner memory and evidence | `method/learner-model.md` |
 | Spaces and concepts | `method/context-map.md` |
 | Sources and authority | `method/sources.md` |
+| Websites: which browser, and when to switch | `method/browsers.md` |
 | Anything visual: pages, documents, decks, video | `method/artifacts.md` |
 | User-visible writing | `method/writing.md` |
 | Mathematics | `method/math-notation.md` |

@@ -33,7 +33,7 @@ npm run check
 - `VISION.md` defines the product and its boundaries.
 - `DECISIONS.md` records settled design choices.
 - `MIGRATIONS.md` lists changes an existing `local/` must be aligned to after an update.
-- `method/` contains the learning, context, source, artifact, writing, and housekeeping methods.
+- `method/` contains the learning, context, source, browser, artifact, writing, and housekeeping methods.
 - `.agents/skills/` contains reusable direction, production, verification, and repository workflows.
 - `templates/local/` is the public template for private working state.
 - `apps/artifact-studio/` hosts local interactive artifacts.

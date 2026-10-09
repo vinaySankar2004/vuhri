@@ -11,6 +11,25 @@ Use this format:
 - Status: proposed
 ```
 
+## 2026-10-08: Fall back to Claude in Chrome when the built-in browser fails
+
+- Evidence: An AWS root sign-in in the desktop app's Browser pane passed the email and
+  password, then ended at the passkey step with a message that the prompt was cancelled. The
+  person's Safari completed the passkey, but its old AWS cookies made the console return a
+  `400 Bad Request` until a private window was used. A review of the third-party
+  `claude-for-safari` skill (SDLLL, MIT) found it is AppleScript running page JavaScript in
+  Safari. It needs a Safari setting that opens every tab to any app with Automation access,
+  plus up to three more macOS permissions. Computer use can see browsers but not act in them.
+  The learner chose Chrome over Safari once told Chrome can use Apple passkeys, and asked for
+  a public rule used only when the pane fails.
+- Proposed change: Add `method/browsers.md` with the order (pane first, Claude in Chrome on a
+  recorded failure) and a list of observed failures, route to it from `AGENTS.md`, and record
+  the rejected Safari route in `DECISIONS.md`.
+- Scope and exclusions: No custom browser code or vendored skill. Whether Claude in Chrome
+  clears the AWS passkey failure is unconfirmed; confirm it at the next root sign-in and update
+  the method either way.
+- Status: accepted
+
 ## 2026-10-03: Consolidate rules, roles, and housekeeping
 
 - Evidence: Rules had spread across four homes that drifted apart. The repository, `local/`, an
