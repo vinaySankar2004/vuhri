@@ -17,7 +17,7 @@ the next task. Failures seen so far:
 
 - **A passkey kept in the person's own browser or Apple Passwords.** The pane cannot reach
   it, and the sign-in ends with a message saying the passkey prompt was cancelled. Seen on an
-  AWS root sign-in, 2026-10-08.
+  AWS root sign-in, 2026-10-08; the same sign-in worked in Chrome.
 
 Add a failure to this list only when it has been seen, with its date.
 
@@ -30,9 +30,15 @@ sign in with the same Claude account the app uses, and follow Anthropic's
 If no browser is connected, tell the person and ask them to check that Chrome is open with
 the extension signed in. Do not retry in a loop.
 
+The extension sees only its own tab group, not the person's other tabs. To follow a page
+they are working on, open it in that group and have them carry on in that tab.
+
 ## Either way
 
 - Passwords, passkeys, and one-time codes are the person's to enter.
+- Read a page through its text, its accessibility tree, or a screenshot. Never call the
+  page's own scripts to read it: on 2026-10-09, calling a code editor's setup function to read
+  an IAM policy replaced the editor and its unsaved text.
 - Computer use can see a browser window but not click or type in it, so it is no substitute
   for either browser.
 - Do not drive the person's browser through AppleScript or similar scripting. The reason is

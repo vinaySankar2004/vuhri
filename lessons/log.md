@@ -11,6 +11,20 @@ Use this format:
 - Status: proposed
 ```
 
+## 2026-10-09: Read pages without side effects, inside the extension's tab group
+
+- Evidence: Guiding an AWS console session through Claude in Chrome, the agent could not see
+  the person's tabs until the page was opened in the extension's own tab group and they worked
+  there. Reading an IAM policy editor with a script that called the editor library's setup
+  function replaced the editor and its unsaved text with mangled JSON. Nothing was saved, and
+  a reload recovered it.
+- Proposed change: In `method/browsers.md`, note that the extension sees only its own tab group,
+  and require reading through page text, the accessibility tree, or screenshots, never through
+  a page's own scripts.
+- Scope and exclusions: Applies to both browsers. Inspecting a page with plain DOM reads is
+  still allowed.
+- Status: accepted
+
 ## 2026-10-08: Fall back to Claude in Chrome when the built-in browser fails
 
 - Evidence: An AWS root sign-in in the desktop app's Browser pane passed the email and
@@ -25,9 +39,8 @@ Use this format:
 - Proposed change: Add `method/browsers.md` with the order (pane first, Claude in Chrome on a
   recorded failure) and a list of observed failures, route to it from `AGENTS.md`, and record
   the rejected Safari route in `DECISIONS.md`.
-- Scope and exclusions: No custom browser code or vendored skill. Whether Claude in Chrome
-  clears the AWS passkey failure is unconfirmed; confirm it at the next root sign-in and update
-  the method either way.
+- Scope and exclusions: No custom browser code or vendored skill. Confirmed the same day: the
+  AWS root sign-in that failed in the pane worked in Chrome.
 - Status: accepted
 
 ## 2026-10-03: Consolidate rules, roles, and housekeeping
