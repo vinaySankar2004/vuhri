@@ -18,6 +18,10 @@ the next task. Failures seen so far:
 - **A passkey kept in the person's own browser or Apple Passwords.** The pane cannot reach
   it, and the sign-in ends with a message saying the passkey prompt was cancelled. Seen on an
   AWS root sign-in, 2026-10-08; the same sign-in worked in Chrome.
+- **reCAPTCHA served from `www.recaptcha.net`.** It loads with the page, then the pane can no
+  longer reach that host, and the form refuses to submit with "Could not connect to the
+  reCAPTCHA service". Seen twice on a Greenhouse application, 2026-10-19, while
+  `www.google.com` stayed reachable; the same form submitted in Chrome.
 
 Add a failure to this list only when it has been seen, with its date.
 
