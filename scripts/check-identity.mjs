@@ -1,9 +1,10 @@
 import {execFileSync} from 'node:child_process'
-import {readFileSync} from 'node:fs'
+import {existsSync, readFileSync} from 'node:fs'
 
+// A tracked file deleted in the working tree has nothing left to check.
 const tracked = execFileSync('git', ['ls-files', '-z'], {encoding: 'utf8'})
   .split('\0')
-  .filter(Boolean)
+  .filter((file) => file && existsSync(file))
 
 const retiredTitle = ['Hub', 'To', 'Learn'].join('')
 const retiredSlug = ['hub', 'to', 'learn'].join('-')
