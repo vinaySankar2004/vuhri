@@ -34,23 +34,26 @@ are rebuildable and are never committed.
 
 Assets live in `local/blender/`, indexed in its `README.md`:
 
-- `characters/`: one style file per character, the look applied to any skeleton;
-- `motion/`: recorded or generated motion, with source and licence per file;
+- `characters/`: one design file per character, built into its `.blend`;
+- `motion/`: recordings with source and licence, pose layers, and the motions built from them;
 - `renders/`: clips, rebuildable from the two above.
+
+Built `.blend` files are rebuildable from the design files and recordings, so they are not
+committed; a `.blend` someone has edited by hand becomes a source and is.
 
 Add an asset only when a job uses it, and record its source and licence when it arrives.
 
 ## Modules
 
-- Characters: [characters](references/characters.md). A character style plus a motion becomes
-  a flat 2D figure on a transparent background.
+- Characters: [characters](references/characters.md). A designed character, a motion retargeted
+  onto it, and a shot of the two: three parts, each its own script and file.
 
-Add a module, such as product shots, when the first job needs it: one reference, one script,
+Add a module, such as product shots, when the first job needs it: one reference and its scripts,
 proven on that job. Do not build modules ahead of a need.
 
 ## Keep it fast
 
-A clip should take minutes, not hours. Reuse a style and a motion before making new ones;
+A clip should take minutes, not hours. Reuse a character and a motion before making new ones;
 render at the video's size, never larger; use the Workbench engine for flat looks and move to
 Eevee or Cycles only when light is the point.
 

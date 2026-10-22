@@ -1,0 +1,26 @@
+{
+  "cmu": {
+    "note": "CMU's Acclaim skeleton, converted to BVH by acclaim_to_bvh.py, onto vuhri's character skeleton. Ours: source.",
+    "bones": {
+      "hips": "root",
+      "spine": "upperback",
+      "chest": "thorax",
+      "neck": "upperneck",
+      "head": "head",
+      "shoulder.L": "lclavicle",
+      "upper_arm.L": "lhumerus",
+      "forearm.L": "lradius",
+      "hand.L": "lwrist",
+      "thigh.L": "lfemur",
+      "shin.L": "ltibia",
+      "foot.L": "lfoot",
+      "shoulder.R": "rclavicle",
+      "upper_arm.R": "rhumerus",
+      "forearm.R": "rradius",
+      "hand.R": "rwrist",
+      "thigh.R": "rfemur",
+      "shin.R": "rtibia",
+      "foot.R": "rfoot"
+    }
+  }
+}
