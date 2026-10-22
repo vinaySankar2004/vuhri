@@ -13,6 +13,7 @@ An artifact is anything vuhri builds to be seen: a web page, a document, a deck,
 | A loop, sting, or micro-animation | One shot, 2 to 6 seconds | `direct-video`: one shot sentence, then build | Verifier and visual pass |
 | A short video | Beats and shots, 6 to 45 seconds | `direct-video` brief, beat sheet, and shot plan, then build | One frame per second and every boundary reviewed |
 | A longer video | A staged workspace, 45 seconds and up | `direct-video` with `init_video_project.py` and a design board; chapters past 90 seconds | Board approved, then each section reviewed |
+| A social post | A video, graphic, or carousel per platform | `manage-social` | Handed over, then logged with its numbers |
 | A change to any of these | The smallest stable target | The medium's revision rules; for video, the revision protocol | The change and its seams are rechecked |
 
 For learning, start with `direct-learning-artifact` whatever the medium. It may conclude that a chat answer is enough. Learning videos add `remotion-learning-director`; marketing, ads, and launch clips add `remotion-marketing-director`.

@@ -16,6 +16,8 @@ Match the process to the job, as the table in `method/artifacts.md` sets out:
 - Longer video, 45 seconds and up: the staged workspace from `scripts/init_video_project.py` and a design board approved before production. Read [workspace architecture](references/workspace-architecture.md) and the design board section of [guided direction](references/guided-direction.md). Past 90 seconds, build and verify in chapters.
 - Revision: the [revision protocol](references/revision-protocol.md).
 
+A vertical piece for Reels, Shorts, TikTok or X also follows [short-form](references/short-form.md).
+
 Load an adapter after the direction layer: `remotion-learning-director` for teaching, `remotion-marketing-director` for marketing, ads, product films, and launch clips. Reuse answers already given. Pause only at decisions that change the concept, hook, or visual thesis.
 
 ## Guide people who do not speak video

@@ -13,6 +13,18 @@ Decide the audio role at the script stage: narration, a music bed, sparse effect
 - A commercial track the user supplies may be muted or claimed on public platforms. Say so before using it.
 - A built-in system voice is provisional. A public master needs a reviewed voice and a full listening pass, including how names are pronounced.
 
+## Voice
+
+Checked 2026-10-20 against model cards, licences and the [Artificial Analysis arena](https://artificialanalysis.ai/text-to-speech/leaderboard).
+
+- **macOS voices never go in a published video.** Apple's licence limits system voices, Premium voices and Personal Voice to personal, non-commercial use.
+- **Free voices that are safe for commercial use and run locally on Apple Silicon through [mlx-audio](https://github.com/Blaizzy/mlx-audio):**
+  - [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M): Apache-2.0, about 330 MB, fast, 54 preset voices, and pronunciation fixes in IPA.
+  - [Ming-3.0-tts-0.5B](https://huggingface.co/inclusionAI/Ming-3.0-tts-0.5B): MIT, about 3 GB, ranked highest of the clean-licence models, with emotion and pace instructions and number handling.
+  - [Chatterbox](https://github.com/resemble-ai/chatterbox): MIT, about 2.6 GB, clones a voice from about 10 seconds of audio, and watermarks its output inaudibly.
+- **Not safe for commercial use:** F5-TTS and XTTS-v2 weights, Voxtral TTS, the ElevenLabs free tier, and `edge-tts`. Check any other model's weights licence separately from its code licence.
+- Keep the chosen voice, its settings and its pronunciation fixes in the project's `_config/brand.md`, so every video sounds the same.
+
 ## Music and effects (candidate)
 
 - Keep a music bed around 0.3 to 0.4 of full volume, never above 0.5, and duck it to about 0.12 to 0.15 under narration.

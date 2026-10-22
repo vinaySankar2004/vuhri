@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Social"
+  short_description: "Plan, make, hand over and learn from social posts"
+  default_prompt: "Use $manage-social to plan this account's series and make its next post."
