@@ -1,6 +1,6 @@
 # Rendering
 
-Choose the renderer by what the video needs. Both share the same direction artifacts, stable IDs, and verifier.
+Choose the renderer by what the video needs. All share the same direction artifacts, stable IDs, and verifier. Remotion assembles the video; Blender supplies motion that code-drawn shapes cannot fake.
 
 ## Choose
 
@@ -8,6 +8,7 @@ Choose the renderer by what the video needs. Both share the same direction artif
 | --- | --- | --- |
 | Remotion | Complex or sustained animation, 3D through `@remotion/three`, caption tooling, Studio review, reusable React components | An `npm install` per project, often hundreds of megabytes. Remove `node_modules` when the project ends. |
 | HTML frame renderer | A video that follows a deck, text and diagram motion, or anything one page can draw | A headless browser and ffmpeg, shared across projects |
+| Blender, through `build-in-blender` | A character or object that has to move like a real one: a kick, a celebration, a product turning in light | Blender installed once; renders a transparent clip that Remotion places |
 
 For Remotion, load Remotion's `remotion-best-practices` skill when it is installed, otherwise read [the Remotion docs](https://www.remotion.dev/docs). Its guidance on mechanics wins over creative advice.
 

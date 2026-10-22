@@ -185,7 +185,7 @@ FORMATS = {
     "vertical": "9:16, 1080x1920, 30 fps",
     "square": "1:1, 1080x1080, 30 fps",
 }
-TOOLS = ("verify_video.py", "bake_poster.py")
+TOOLS = ("verify_video.py", "bake_poster.py", "motion_audit.py", "frame_grid.sh")
 
 
 def parse_args() -> argparse.Namespace:
@@ -272,6 +272,8 @@ This workspace directs, builds, verifies, and revises one video project through 
 - `07_review/runs/`: immutable per-render technical and visual-review evidence.
 - `tools/verify_video.py`: agent-independent rendered-video pre-verification.
 - `tools/bake_poster.py`: makes the chosen poster frame the first frame of the delivered file.
+- `tools/motion_audit.py`: flags flicker, pops and strobing between frames (needs numpy).
+- `tools/frame_grid.sh`: lays frames out in a grid to check motion one frame at a time.
 
 ## Operating rules
 

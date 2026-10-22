@@ -32,6 +32,14 @@ Use one-second overview sampling for work up to 45 seconds. For longer work, cho
 
 The verifier refuses to overwrite a prior evidence directory. Each rerender gets a new run so regression evidence stays inspectable.
 
+## Motion check (candidate)
+
+Contact sheets miss motion faults: a strobe, a one-frame pop, a ghosted transition. After the
+gate, run `tools/motion_audit.py` on the render (it needs numpy). It flags regions that flicker,
+pop or keep reversing. Lay out every flagged moment and every transition one frame at a time
+with `tools/frame_grid.sh` and look at them. A flag points where to look; a designed motion such
+as a kick or a push can be accepted once seen.
+
 ## Shot manifest
 
 Use seconds in the portable manifest. Preserve the same IDs used in the beat sheet, shot plan, scene data, and revision ledger.
