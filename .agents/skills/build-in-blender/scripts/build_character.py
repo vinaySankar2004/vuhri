@@ -4,7 +4,8 @@ The design names the joints, the bones between them, and the body's shapes, each
 around a few rounded blobs. The build makes the skeleton, shapes every part, fuses the parts
 into one watertight mesh (voxel remesh), softens the joins, binds the mesh to the bones with
 automatic weights, and saves a .blend. Left-side joints, bones and shapes (".L") are mirrored to
-the right. The character stands at the origin, facing -Y, in Blender's metres.
+the right. The character stands at the origin, facing -Y, in Blender's metres. Features, such
+as eyes, are small separate objects of their own colour, carried rigidly by one bone.
 
 With --check, it also renders a check sheet into a folder: front and side at rest, which bone
 moves which part, and the test poses the design lists.
@@ -49,13 +50,14 @@ def mirrored(design):
             joints[flip(name)] = [-x, y, z]
     bones = list(design["bones"])
     bones += [[flip(n), flip(a), flip(b), flip(p)] for n, a, b, p in design["bones"] if n.endswith(".L")]
-    shapes = list(design["shapes"])
-    shapes += [
-        {"name": flip(s["name"]), "blobs": [[flip_point(p), r] for p, r in s["blobs"]]}
-        for s in design["shapes"]
-        if s["name"].endswith(".L")
-    ]
-    return joints, bones, shapes
+    def mirror(parts):
+        return list(parts) + [
+            {**s, "name": flip(s["name"]), "blobs": [[flip_point(p), r] for p, r in s["blobs"]]}
+            for s in parts
+            if s["name"].endswith(".L")
+        ]
+
+    return joints, bones, mirror(design["shapes"]), mirror(design.get("features", []))
 
 
 def linear(hex_colour: str):
@@ -80,24 +82,30 @@ def build_rig(joints, bones):
     return rig
 
 
+def hull(joints, blobs, name="part"):
+    """The convex hull of rounded blobs, each [joint or point, radius or [rx, ry, rz]]."""
+    part = bmesh.new()
+    for point, r in blobs:
+        centre = Vector(joints[point]) if isinstance(point, str) else Vector(point)
+        rx, ry, rz = (r, r, r) if isinstance(r, (int, float)) else r
+        bmesh.ops.create_uvsphere(
+            part, u_segments=24, v_segments=12, radius=1.0,
+            matrix=Matrix.Translation(centre) @ Matrix.Diagonal((rx, ry, rz, 1)),
+        )
+    bmesh.ops.convex_hull(part, input=part.verts[:], use_existing_faces=False)
+    # Keep only the hull: drop the blobs' interior points the hull left behind.
+    bmesh.ops.delete(part, geom=[v for v in part.verts if not v.link_faces], context="VERTS")
+    me = bpy.data.meshes.new(name)
+    part.to_mesh(me)
+    part.free()
+    return me
+
+
 def build_body(joints, shapes, voxel, soften):
     """Each shape is the convex hull of its blobs; the parts are then fused into one surface."""
     bm = bmesh.new()
     for shape in shapes:
-        part = bmesh.new()
-        for point, r in shape["blobs"]:
-            centre = Vector(joints[point]) if isinstance(point, str) else Vector(point)
-            rx, ry, rz = (r, r, r) if isinstance(r, (int, float)) else r
-            bmesh.ops.create_uvsphere(
-                part, u_segments=24, v_segments=12, radius=1.0,
-                matrix=Matrix.Translation(centre) @ Matrix.Diagonal((rx, ry, rz, 1)),
-            )
-        bmesh.ops.convex_hull(part, input=part.verts[:], use_existing_faces=False)
-        # Keep only the hull: drop the blobs' interior points the hull left behind.
-        bmesh.ops.delete(part, geom=[v for v in part.verts if not v.link_faces], context="VERTS")
-        me = bpy.data.meshes.new("part")
-        part.to_mesh(me)
-        part.free()
+        me = hull(joints, shape["blobs"])
         bm.from_mesh(me)
         bpy.data.meshes.remove(me)
     me = bpy.data.meshes.new("body")
@@ -118,6 +126,23 @@ def build_body(joints, shapes, voxel, soften):
     bpy.data.meshes.remove(old)
     solid.name = "body"
     return body
+
+
+def build_features(joints, features, rig):
+    """Each feature is its own smooth object, parented to a bone where it stands at rest."""
+    for f in features:
+        me = hull(joints, f["blobs"], f["name"])
+        for poly in me.polygons:
+            poly.use_smooth = True
+        m = bpy.data.materials.new(f["name"])
+        m.diffuse_color = linear(f["colour"])
+        me.materials.append(m)
+        ob = bpy.data.objects.new(f["name"], me)
+        bpy.context.scene.collection.objects.link(ob)
+        bone = rig.data.bones[f["bone"]]
+        ob.parent, ob.parent_type, ob.parent_bone = rig, "BONE", bone.name
+        # A bone child hangs from the bone's tail; undo that, so the feature stays where drawn.
+        ob.matrix_parent_inverse = (rig.matrix_world @ bone.matrix_local @ Matrix.Translation((0, bone.length, 0))).inverted()
 
 
 def bind(body, rig):
@@ -251,10 +276,11 @@ def main() -> None:
     a = args_after_dashes()
     design = json.load(open(a.design))
     bpy.ops.wm.read_factory_settings(use_empty=True)
-    joints, bones, shapes = mirrored(design)
+    joints, bones, shapes, features = mirrored(design)
     rig = build_rig(joints, bones)
     body = build_body(joints, shapes, design.get("voxel", 0.006), design.get("soften", 8))
     bind(body, rig)
+    build_features(joints, features, rig)
     side_materials(body, design["colours"])
     body["farColour"] = design["colours"]["far"]  # a shot shades the far side's limbs with it
     if a.check:

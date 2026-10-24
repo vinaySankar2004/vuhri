@@ -10,7 +10,7 @@ same bone names can play them.
 
 Usage:
   Blender -b --python make_motion.py -- --character striker.blend --bvh 10_01.bvh --map cmu
-          --out kick-10_01.blend [--layers 10_01-strike.json]
+          --out kick-10_01.blend [--layers 10_01-strike.json] [--frames a-b]
 """
 
 import argparse
@@ -32,6 +32,7 @@ def args_after_dashes():
     ap.add_argument("--map", default="cmu")
     ap.add_argument("--out", required=True)
     ap.add_argument("--layers", help="JSON of pose layers; see shape()")
+    ap.add_argument("--frames", help="keep only this stretch of the recording, a-b")
     return ap.parse_args(sys.argv[sys.argv.index("--") + 1 :])
 
 
@@ -190,39 +191,67 @@ def turn_about(rig, pb, turn, pivot):
     bpy.context.view_layer.update()
 
 
-def lift_foot(rig, side, rise, forward):
-    """Two-bone IK: raise the ankle by `rise`, the hip fixed, the knee bending in its own plane
-    (forward, when the leg is straight), the foot keeping its angle."""
+def reach(rig, limb, target, hint):
+    """Two-bone IK: move the end of a limb (upper, lower, end bone names) to a world point, its
+    root fixed, the middle joint bending in its own plane (towards `hint`, when the limb is
+    straight), the end bone keeping its angle."""
     W = rig.matrix_world
-    thigh, shin, foot = (rig.pose.bones[f"{p}.{side}"] for p in ("thigh", "shin", "foot"))
-    hip, knee, ankle = W @ thigh.head, W @ shin.head, W @ foot.head
-    foot_rot = (W @ foot.matrix).to_quaternion()
-    a, b = (knee - hip).length, (ankle - knee).length
-    to = ankle + Vector((0, 0, rise)) - hip
+    upper, lower, end = (rig.pose.bones[n] for n in limb)
+    root, mid, tip = W @ upper.head, W @ lower.head, W @ end.head
+    end_rot = (W @ end.matrix).to_quaternion()
+    a, b = (mid - root).length, (tip - mid).length
+    to = target - root
     d = min(to.length, a + b - 1e-4)
     axis = to.normalized()
-    bend = (knee - hip) - axis * (knee - hip).dot(axis)
+    bend = (mid - root) - axis * (mid - root).dot(axis)
     if bend.length < 0.01:
-        bend = forward - axis * forward.dot(axis)
+        bend = hint - axis * hint.dot(axis)
     x = (a * a - b * b + d * d) / (2 * d)
-    new_knee = hip + axis * x + bend.normalized() * math.sqrt(max(a * a - x * x, 0.0))
-    turn_about(rig, thigh, (knee - hip).rotation_difference(new_knee - hip), hip)
-    knee, ankle = W @ shin.head, W @ foot.head
-    turn_about(rig, shin, (ankle - knee).rotation_difference(hip + axis * d - knee), knee)
-    ankle = W @ foot.head
-    turn_about(rig, foot, foot_rot.rotation_difference((W @ foot.matrix).to_quaternion()).inverted(), ankle)
+    new_mid = root + axis * x + bend.normalized() * math.sqrt(max(a * a - x * x, 0.0))
+    turn_about(rig, upper, (mid - root).rotation_difference(new_mid - root), root)
+    mid, tip = W @ lower.head, W @ end.head
+    turn_about(rig, lower, (tip - mid).rotation_difference(root + axis * d - mid), mid)
+    tip = W @ end.head
+    turn_about(rig, end, end_rot.rotation_difference((W @ end.matrix).to_quaternion()).inverted(), tip)
 
 
-def shape(scene, rig, layers, name):
+def lift_foot(rig, side, rise, forward):
+    """Raise the ankle by `rise`, the hip fixed, the foot keeping its angle."""
+    ankle = rig.matrix_world @ rig.pose.bones[f"foot.{side}"].head
+    reach(rig, (f"thigh.{side}", f"shin.{side}", f"foot.{side}"), ankle + Vector((0, 0, rise)), forward)
+
+
+def hold(rig, layer, weight):
+    """Both hands on an object held ahead of a bone, such as a controller: each wrist moves
+    `weight` of the way to its grip, `at` [ahead, up] metres from the bone's head in the
+    body's frame, the grips `width` apart."""
+    W = rig.matrix_world
+    up = Vector((0, 0, 1))
+    left = W @ rig.pose.bones["thigh.L"].head - W @ rig.pose.bones["thigh.R"].head
+    left = Vector((left.x, left.y, 0)).normalized()
+    ahead = left.cross(up)
+    centre = W @ rig.pose.bones[layer["hold"]].head + ahead * layer["at"][0] + up * layer["at"][1]
+    for s, sign in (("L", 1), ("R", -1)):
+        wrist = W @ rig.pose.bones[f"hand.{s}"].head
+        grip = centre + left * sign * layer["width"] / 2
+        reach(rig, (f"upper_arm.{s}", f"forearm.{s}", f"hand.{s}"), wrist.lerp(grip, weight), -up + left * sign)
+
+
+def shape(scene, rig, layers, name, facing="motion"):
     """Clean and exaggerate the motion as an animator would, as an action combined on top.
 
     Cleanup is automatic: a foot that would sink below the floor is lifted clear by IK. Each pose
     layer moves one bone in the side view, with a weight that eases in and out over `times`: four
-    seconds from the motion's peak (its fastest foot). `aim` points the bone at a screen angle
-    (0 ahead along the motion, 90 up, 180 behind, 270 down), flat in that view's plane; `degrees`
-    turns it instead, positive clockwise on screen. The action holds, per frame, the turn from
-    the recorded pose to the shaped one.
+    seconds from the motion's peak (its fastest foot); without `times` it holds throughout. `aim`
+    points the bone at a screen angle (0 ahead along the motion, 90 up, 180 behind, 270 down),
+    flat in that view's plane; `degrees` turns it instead, positive clockwise on screen. "Ahead"
+    is the way the fastest foot travels, or with facing "body" the way the hips face. A `hold`
+    layer puts both hands on a held object (see hold()). The action holds, per frame, the turn
+    from the recorded pose to the shaped one.
     """
+    def weight(layer, t):
+        return bump(t, layer["times"]) if "times" in layer else 1.0
+
     fps = scene.render.fps
     W = rig.matrix_world
     low = foot_surface(rig)
@@ -237,6 +266,11 @@ def shape(scene, rig, layers, name):
         ((Vector(((p[k] - p[k - 1]).x, (p[k] - p[k - 1]).y)).length, s, k) for s, p in feet.items() for k in range(1, len(p))),
     )
     v = feet[side][min(i + 1, len(feet[side]) - 1)] - feet[side][i - 1]
+    if facing == "body":  # the hips' facing, averaged: for a motion that goes nowhere
+        v = Vector()
+        for f in range(scene.frame_start, scene.frame_end + 1, 4):
+            scene.frame_set(f)
+            v += (W @ rig.pose.bones["thigh.L"].head - W @ rig.pose.bones["thigh.R"].head).cross(Vector((0, 0, 1)))
     forward = Vector((v.x, v.y, 0)).normalized()
     peak = scene.frame_start + i
 
@@ -247,7 +281,7 @@ def shape(scene, rig, layers, name):
         t = (f - peak) / fps
         base = {n: rig.pose.bones[n].rotation_quaternion.copy() for n in order}
         for n in order:
-            mine = [l for l in layers if l["bone"] == n and bump(t, l["times"])]
+            mine = [l for l in layers if l.get("bone") == n and weight(l, t)]
             if not mine:
                 continue
             pb = rig.pose.bones[n]
@@ -259,8 +293,11 @@ def shape(scene, rig, layers, name):
                     full = now.rotation_difference(forward * math.cos(r) + Vector((0, 0, 1)) * math.sin(r))
                 else:
                     full = Quaternion(Vector((0, 0, 1)).cross(forward), math.radians(l["degrees"]))
-                turn = Quaternion().slerp(full, bump(t, l["times"])) @ turn
+                turn = Quaternion().slerp(full, weight(l, t)) @ turn
             turn_about(rig, pb, turn, (W @ pb.matrix).translation.copy())
+        for l in layers:
+            if "hold" in l and weight(l, t):
+                hold(rig, l, weight(l, t))
         for s in ("L", "R"):
             if low(s) < floor:
                 lift_foot(rig, s, floor - low(s) + 0.005, forward)
@@ -291,6 +328,8 @@ def main() -> None:
     )
     src = next(o for o in scene.objects if o.type == "ARMATURE" and o != rig)
     src.animation_data.action.name = "recording"  # frees the clip's name for ours
+    if a.frames:
+        scene.frame_start, scene.frame_end = (int(x) for x in a.frames.split("-"))
     stem = os.path.splitext(os.path.basename(a.bvh))[0]
 
     for pb in rig.pose.bones:
@@ -302,9 +341,10 @@ def main() -> None:
     ground(scene, rig, planted)
     recorded = rig.animation_data.action
     recorded["fps"] = scene.render.fps
-    layers = json.load(open(a.layers))["layers"] if a.layers else []
+    doc = json.load(open(a.layers)) if a.layers else {}
+    layers = doc.get("layers", [])
     suffix = os.path.splitext(os.path.basename(a.layers))[0] if a.layers else "clean"
-    layer, peak, side = shape(scene, rig, layers, f"{stem}+{suffix}")
+    layer, peak, side = shape(scene, rig, layers, f"{stem}+{suffix}", doc.get("facing", "motion"))
     layer["fps"] = scene.render.fps
     layer["layerOf"] = recorded.name
     # The key moment, fixed here so a layer that changes the foot's speed cannot move it.

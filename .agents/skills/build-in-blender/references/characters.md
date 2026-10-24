@@ -9,7 +9,7 @@ A character job has three parts that change independently, each a script in `scr
 | Shot | `render_shot.py` | `renders/<shot>/`: PNG frames, `meta.json`, `scene.blend` | a video needs a clip |
 
 A new character plays every existing motion; a new motion plays on every character. Proven on
-ScoutRoom's striker kicking, 2026-10-21.
+ScoutRoom's striker: kicking, gaming, cheering and dancing (2026-10-21 to 23).
 
 ## Character
 
@@ -20,11 +20,12 @@ standing at the origin and facing -Y. Only the left side is written; `.L` parts 
 - `shapes`: body parts, each a list of blobs `[joint or point, radius or [rx, ry, rz]]`. A part
   is the smooth hull around its blobs, so a calf or a chest is one more blob.
 - `colours`: `body`, `far` (the far side's limbs in a side shot), `background` (check renders).
+- `features`: small separate objects carried rigidly by one bone, such as eyes: a `bone`, a
+  `colour` and blobs. They are not fused into the body.
 - `checkPoses`: test poses, bone to world direction.
 
-The build makes the skeleton, hulls every part, fuses the parts into one watertight mesh (voxel
-remesh), softens the joins, binds the mesh with automatic weights, and saves the `.blend` in
-seconds. `--check <folder>` renders front, side, a map of which bone moves each part, and the
+The build makes the skeleton, hulls every part, fuses them into one watertight mesh (voxel
+remesh), softens the joins, binds it with automatic weights, and saves the `.blend`. `--check <folder>` renders front, side, a map of which bone moves each part, and the
 test poses: judge the physique there before animating.
 
 ```bash
@@ -32,8 +33,8 @@ Blender -b --python scripts/build_character.py -- --design striker.json \
   --out striker.blend --check local/blender/renders/striker-check
 ```
 
-In Blender, select `rig` and press Ctrl+Tab for Pose Mode to bend bones; select `body` and use
-Weight Paint mode to see each bone's pull.
+In Blender, Pose Mode (Ctrl+Tab on `rig`) bends bones; Weight Paint on `body` shows each bone's
+pull.
 
 ## Motion
 
@@ -44,20 +45,23 @@ Weight Paint mode to see each bone's pull.
 | Text-to-motion models | Later | Check each model; many are trained on research-only data |
 
 CMU ships Acclaim files; convert them with `python3 scripts/acclaim_to_bvh.py 10.asf 10_01.amc
-10_01.bvh` (checked against Blender's import to four decimal places).
+10_01.bvh`. Preview a clip on the character before choosing it: titles mislead.
 
 `make_motion.py` retargets a BVH onto a character's skeleton through `scripts/bone_maps.json`
-(ours to theirs; a new source skeleton needs one entry). Each of our bones copies the turn its
+(a new source skeleton needs one entry). Each of our bones copies the turn its
 source bone made from rest, so the skeletons may differ in proportion and bone count. Then it
-cleans up, as any retarget must:
+cleans up:
 
 - planted feet (low and still in the recording) rest on the floor, by moving the hips;
 - a swinging foot that would cut the floor is lifted clear by two-bone IK.
 
 Pose layers exaggerate a recording without touching it. Each moves one bone in the side view
-over `times` (seconds from the fastest foot: ease in, full, hold, ease out): `aim` points it at
-a screen angle (0 ahead, 90 up, 180 behind, 270 down), `degrees` turns it, clockwise positive.
-Leave the planted leg and the hips alone, or the planted foot slides.
+over `times` (seconds from the fastest foot: ease in, full, hold, ease out; without `times` it
+holds throughout): `aim` points it at a screen angle (0 ahead, 90 up, 180 behind, 270 down),
+`degrees` turns it, clockwise positive. A `hold` layer puts both hands on a held object, such as
+a controller, by arm IK. "Ahead" is the fastest foot's way, or with `"facing": "body"` the hips'
+facing, for a motion that goes nowhere. Leave a planted leg and the hips alone, or the foot
+slides. `--frames a-b` keeps one stretch of a long recording.
 
 ```bash
 Blender -b --python scripts/make_motion.py -- --character striker.blend \
@@ -65,8 +69,7 @@ Blender -b --python scripts/make_motion.py -- --character striker.blend \
 ```
 
 The cleanup and the layers sit in a second action, combined over the recording in the NLA
-editor. The motion also records its key moment, so a layer that changes the foot's speed cannot
-shift every shot's window.
+editor. The motion also stores its key moment, so layers cannot shift a shot's window.
 
 ## Shot
 
@@ -77,9 +80,21 @@ Blender -b --python scripts/render_shot.py -- --character striker.blend \
 
 The shot stacks the motion in the NLA editor, films it orthographically from the side it
 travels across (left to right), shades the far side, and renders flat colour on transparency.
-`meta.json` gives the video `fps`, `size`, `frames`, `peakFrame`, `groundY` (where the feet rest),
-`pixelsPerMetre`, `figureHeightPx`, and `toePath`, the moving toe's pixel on every frame, so a
-ball can be timed to the foot. Render at 120 fps when the video slows or reverses the clip.
+`meta.json` gives the video `fps` (the rendered frames' rate), `size`, `frames`, `peakFrame`,
+`groundY` (where the feet rest), `pixelsPerMetre`, `figureHeightPx`, and the moving toe's and
+the head's pixel on every frame (`toePath`, `headPath`). Render at 120 fps when the video slows
+or reverses the clip; `--step 4` plays a 120 fps recording at 30.
+
+For story scenes:
+
+- `--angle` swings the camera from the side towards the front (60 is a front three-quarter).
+- `--lines` draws contours in the background colour instead of the far shade, so crossing limbs
+  read (Eevee with Freestyle, about a second a frame).
+- `--props couch controller`: a couch fitted under a seated pose, a controller between the hands.
+- `--no-features` hides eyes and other features, for a mark drawn without a face.
+
+In the video, scale every shot by `pixelsPerMetre` and stand it on `groundY`, so the character
+keeps his size across cuts.
 
 ## Vector masters
 
@@ -103,6 +118,6 @@ Needs numpy. Compare the SVG, rendered back (`qlmanage -t`), against the still.
 
 ## Known limits
 
-- Side views only: layers and shots work in the side plane.
-- Hands are mittens; feet have no toes.
+- Pose layers work in the side plane; shots may take any angle.
+- Hands are mittens; feet have no toes. Faces are dots.
 - Planted feet are held to the floor but may slide a little sideways.
