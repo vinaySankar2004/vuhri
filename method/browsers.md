@@ -22,6 +22,8 @@ the next task. Failures seen so far:
   longer reach that host, and the form refuses to submit with "Could not connect to the
   reCAPTCHA service". Seen twice on a Greenhouse application, 2026-10-19, while
   `www.google.com` stayed reachable; the same form submitted in Chrome.
+- **Media uploads on X.** A video attached in the pane shows "Ready" but is never sent to X's
+  upload server, so Post stays disabled. Seen 2026-10-23; the same post went out from Chrome.
 
 Add a failure to this list only when it has been seen, with its date.
 

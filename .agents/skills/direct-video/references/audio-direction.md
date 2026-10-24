@@ -27,8 +27,9 @@ Checked 2026-10-20 against model cards, licences and the [Artificial Analysis ar
 
 ## Music and effects (candidate)
 
-- Keep a music bed around 0.3 to 0.4 of full volume, never above 0.5, and duck it to about 0.12 to 0.15 under narration.
-- Keep effects between 0.55 and 0.85, softer for restrained tones.
+- Set the bed by measured loudness, not volume numbers: about 14 LU under the voice under narration and 6 to 8 LU under it where nothing is said. Measure each file with ffmpeg's `ebur128` first, since a voice and a track are rarely mastered alike: a TTS voice near -27 LUFS under a track near -14 left a 0.12 duck only 6 LU below the voice.
+- Hold the bed steady through short gaps between lines; lifting it in each gap makes it pump.
+- Keep effects under the voice, softer for restrained tones.
 - Start an effect up to 0.1 seconds before its element first appears, so sound and motion land together.
 - In a staggered set, accent only the first, last, or strongest item unless the rhythm is the point.
 - Match the gesture: card sounds for card reveals, clicks for simulated taps, one short impact for a payoff. Use warm, dull sounds for anything repeated, because bright ones fatigue.
