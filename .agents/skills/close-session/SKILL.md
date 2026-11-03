@@ -49,4 +49,4 @@ Most users' `local/` is a plain folder, so the freshness pass is the whole close
 
 ## Report
 
-One short paragraph: what the session established, where it stopped, and the state of both repositories. The files carry the detail. The handoff does not repeat them.
+One short paragraph: what the session established, where it stopped, and the state of each repository it touched. The files carry the detail. The handoff does not repeat them.

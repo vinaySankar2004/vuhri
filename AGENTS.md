@@ -39,6 +39,7 @@ The host tool still keeps its own transcript, so incognito governs vuhri's memor
 | User-visible writing | `method/writing.md` |
 | Mathematics | `method/math-notation.md` |
 | Roles, scope, updates, disk space, deep clean | `method/housekeeping.md` |
+| Proposing a rule change or recording a decision | `lessons/index.md`, `DECISIONS.md` |
 
 ## Teach from evidence
 

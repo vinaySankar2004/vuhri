@@ -12,7 +12,7 @@ properly.
 
 **Every displayed equation, derivation, and matrix goes in a fenced code block** with no
 language tag. Markdown does not process inside a fence, the font is monospace, and columns
-align. This is not a preference about density. It is the only way matrices render at all.
+align. It is the only way matrices render at all.
 
 ## Inside a code block
 
@@ -54,9 +54,7 @@ monospace fallback style for the pre-typeset state so a blocked script degrades 
 source rather than raw braces. MathJax skips `pre` and `code` by default, so any genuinely
 tabular block still renders as plain text.
 
-A page that will also be read on paper carries a further constraint. An `overflow` container
-clips rather than scrolls when printed, and typeset mathematics cannot wrap, so a long
-expression in a narrow column runs off the edge. See the printing section of `artifacts.md`.
+A page that will also be read on paper follows the printing section of `artifacts.md`.
 
 ## Diagrams
 

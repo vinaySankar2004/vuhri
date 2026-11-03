@@ -38,8 +38,8 @@ When something is worth raising, say what it is, how big it is, whether it can b
 - When the person says to keep something, record it with `npm run housekeeping -- --keep <path>`. It is raised again only if it grows by half.
 - Session copies under `.claude/worktrees/` may belong to other running sessions. Report their size; leave removal to the person or the app.
 
-Clean up after work too. Remove the scratch a session created, such as frames, temporary renders, and check screenshots, once the output it produced is verified. When a project ends, offer to keep only its `final/` folder. When someone hands over a file to keep, copy it into `local/`, confirm the copy is identical, and offer to move the original to the Trash.
+Clean up after work too. Once the output a session produced is verified, offer to move the scratch it created, such as frames, temporary renders, and check screenshots, to the Trash. When a project ends, offer to keep only its `final/` folder. When someone hands over a file to keep, copy it into `local/`, confirm the copy is identical, and offer to move the original to the Trash.
 
 ## Deep clean
 
-Rules and notes drift as lessons land in different places and threads finish. When housekeeping reports a deep clean is due (never done, more than 30 days, or five lessons accepted since the last one), offer it once in everyday words, for example: "It has been a while since vuhri's rules and notes were tidied. Want me to do a clean-up pass?" On a yes, run the `consolidate` skill. A user's pass covers only their own `local/`.
+Rules and notes drift as lessons land in different places and threads finish. When housekeeping reports a deep clean is due (never done, more than 30 days, or five lessons logged since the last one), offer it once in everyday words, for example: "It has been a while since vuhri's rules and notes were tidied. Want me to do a clean-up pass?" On a yes, run the `consolidate` skill. A user's pass covers only their own `local/`.

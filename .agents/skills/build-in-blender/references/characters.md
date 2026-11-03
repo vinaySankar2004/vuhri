@@ -9,7 +9,7 @@ A character job has three parts that change independently, each a script in `scr
 | Shot | `render_shot.py` | `renders/<shot>/`: PNG frames, `meta.json`, `scene.blend` | a video needs a clip |
 
 A new character plays every existing motion; a new motion plays on every character. Proven on
-ScoutRoom's striker: kicking, gaming, cheering and dancing (2026-10-21 to 23).
+one designed character: kicking, gaming, cheering and dancing (2026-10-21 to 23).
 
 ## Character
 
@@ -99,10 +99,10 @@ keeps his size across cuts.
 ## Vector masters
 
 `trace_svg.py` turns a flat still, such as a logo rendered at 3x, into an SVG: one layer per
-palette colour, traced at sub-pixel accuracy. ScoutRoom's mark (21 KB) came from:
+palette colour, traced at sub-pixel accuracy. A four-colour mark (21 KB) came from:
 
 ```bash
-python3 scripts/trace_svg.py logo-3240.png scoutroom-mark.svg \
+python3 scripts/trace_svg.py logo-3240.png mark.svg \
   --palette "#0B0E11" "#C9C5BC" "#F2EFE8" "#E8B34B" \
   --layers "#C9C5BC+#F2EFE8" "#F2EFE8" "#E8B34B" --hole "#E8B34B=#0B0E11"
 ```

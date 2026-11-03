@@ -11,7 +11,7 @@ Decide the audio role at the script stage: narration, a music bed, sparse effect
 - Record every track and effect with its source, licence, and attribution in `_config/brand.md`.
 - Download sounds when a video needs them, into that project. CC0 libraries such as Kenney's need no credit; CC BY music needs credit in the delivery notes.
 - A commercial track the user supplies may be muted or claimed on public platforms. Say so before using it.
-- A built-in system voice is provisional. A public master needs a reviewed voice and a full listening pass, including how names are pronounced.
+- A public master needs a full listening pass, including how names are pronounced. Voice, below, says which voices may be published.
 
 ## Voice
 

@@ -34,7 +34,7 @@ Download what a task needs when it needs it. Each session starts with a size che
 
 ### Treat the HTML frame renderer as a peer of Remotion
 
-A page that draws any frame from a time value, captured in headless Chromium and encoded with ffmpeg, produced the most successful video so far without a per-project install. `direct-video/references/rendering.md` chooses between the two by need.
+A page that draws any frame from a time value, captured in headless Chromium and encoded with ffmpeg, produced the most successful video so far without a per-project install. `direct-video/references/rendering.md` chooses among the renderers by need.
 
 ### Allow optional analysis outside the verification boundary
 
@@ -72,7 +72,7 @@ moves every page break after it.
 
 ### Allow incognito sessions
 
-A session declared incognito in the user's first message runs with no read or write access to `local/` or to memory stored outside the repository, and leaves no trace of having happened. The mode is one way. It cannot be declared retroactively, because a mid-session switch would require deleting work already recorded, and it cannot be lifted, because a session that can rejoin memory is not private. The agent never asks for it or offers it, so an undeclared session is always a normal one. Incognito is scoped to questions, reading, and discussion rather than production work, and it does not relax writing or teaching standards.
+A session declared incognito in the user's first message runs with no read or write access to `local/` or to memory stored outside the repository. The host tool still keeps its own transcript. The mode is one way. It cannot be declared retroactively, because a mid-session switch would require deleting work already recorded, and it cannot be lifted, because a session that can rejoin memory is not private. The agent never asks for it or offers it, so an undeclared session is always a normal one. It does not relax writing or teaching standards.
 
 ## 2026-08-24
 
@@ -136,7 +136,7 @@ Capability records state what the learner demonstrated, in which context, with w
 
 ### Treat artifacts as instructional software
 
-An artifact begins with a learning brief. Interactive websites require build, interaction, visual, accessibility, and instructional checks in a real browser.
+A learning artifact begins with a learning brief. Interactive websites require build, interaction, visual, accessibility, and instructional checks in a real browser.
 
 ### Reuse before expanding the artifact kit
 

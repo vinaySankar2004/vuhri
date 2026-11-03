@@ -27,7 +27,7 @@ Use this format:
 
 ## 2026-10-08: Fall back to Claude in Chrome when the built-in browser fails
 
-- Evidence: An AWS root sign-in in the desktop app's Browser pane passed the email and
+- Evidence: An AWS console sign-in in the desktop app's Browser pane passed the email and
   password, then ended at the passkey step with a message that the prompt was cancelled. The
   person's Safari completed the passkey, but its old AWS cookies made the console return a
   `400 Bad Request` until a private window was used. A review of the third-party
@@ -40,7 +40,7 @@ Use this format:
   recorded failure) and a list of observed failures, route to it from `AGENTS.md`, and record
   the rejected Safari route in `DECISIONS.md`.
 - Scope and exclusions: No custom browser code or vendored skill. Confirmed the same day: the
-  AWS root sign-in that failed in the pane worked in Chrome.
+  AWS console sign-in that failed in the pane worked in Chrome.
 - Status: accepted
 
 ## 2026-10-03: Consolidate rules, roles, and housekeeping
@@ -73,7 +73,7 @@ Use this format:
 
 ## 2026-10-03: Build a deck as local outputs from one outline
 
-- Evidence: For a one-hour family tutorial, a hosted slide artifact was rejected. The learner
+- Evidence: For a one-hour tutorial, a hosted slide artifact was rejected. The learner
   wanted decks as the repository's own work: a PDF to share, a click-through page whose arrow
   keys play animations for live talks, and a video that follows the same deck. One outline
   produced all three plus presenter notes in the time available, and printing the
@@ -116,7 +116,7 @@ Use this format:
 
 - Evidence: The learner asked to keep one course notebook on a tablet, annotate it, and have
   new units added to that same file as they were taught, then raised the case of a correction
-  landing on a page he had already written on. Regenerating the document would have destroyed
+  landing on a page they had already written on. Regenerating the document would have destroyed
   a term of annotation invisibly.
 - Proposed change: Add `scripts/splice-notes-pdf.py` and an accumulating-documents section to
   `method/artifacts.md`. One HTML source renders both the live page and the export and can

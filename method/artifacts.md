@@ -88,4 +88,4 @@ browser and inspect every printed page. Keep the outputs in the project's `final
 
 ## Video
 
-`direct-video` owns direction, rendering, verification, and revision for every video, with an adapter for learning or marketing constraints. A video that follows a deck takes the outline's slide IDs as its beat IDs.
+A video that follows a deck takes the outline's slide IDs as its beat IDs.

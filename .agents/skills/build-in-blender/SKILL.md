@@ -15,7 +15,7 @@ it, or learn from it.
 /Applications/Blender.app/Contents/MacOS/Blender -b --python <script.py> -- <args>
 ```
 
-Install once with `brew install --cask blender`. Scripts live in `scripts/`; check the
+If Blender is missing, ask before installing it with `brew install --cask blender`. Scripts live in `scripts/`; check the
 version a script was written for before trusting an API call (written on Blender 5.2).
 
 ## The contract with a video

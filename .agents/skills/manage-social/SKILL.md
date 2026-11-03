@@ -58,5 +58,5 @@ unprompted.
 
 Record properties, not content: structure, pacing, endings and layout, with numbers and dates,
 in the space's `research/`. Downloading someone's posts needs the person's yes; keep the files
-inside the space and delete them once the notes are written. Never copy a creator's scripts,
+inside the space and move them to the Trash once the notes are written. Never copy a creator's scripts,
 recognisable sequences or visual identity.

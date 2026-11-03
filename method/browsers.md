@@ -17,10 +17,10 @@ the next task. Failures seen so far:
 
 - **A passkey kept in the person's own browser or Apple Passwords.** The pane cannot reach
   it, and the sign-in ends with a message saying the passkey prompt was cancelled. Seen on an
-  AWS root sign-in, 2026-10-08; the same sign-in worked in Chrome.
+  AWS console sign-in, 2026-10-08; the same sign-in worked in Chrome.
 - **reCAPTCHA served from `www.recaptcha.net`.** It loads with the page, then the pane can no
   longer reach that host, and the form refuses to submit with "Could not connect to the
-  reCAPTCHA service". Seen twice on a Greenhouse application, 2026-10-19, while
+  reCAPTCHA service". Seen twice on one hosted web form, 2026-10-19, while
   `www.google.com` stayed reachable; the same form submitted in Chrome.
 - **Media uploads on X.** A video attached in the pane shows "Ready" but is never sent to X's
   upload server, so Post stays disabled. Seen 2026-10-23; the same post went out from Chrome.
@@ -43,8 +43,7 @@ they are working on, open it in that group and have them carry on in that tab.
 
 - Passwords, passkeys, and one-time codes are the person's to enter.
 - Read a page through its text, its accessibility tree, or a screenshot. Never call the
-  page's own scripts to read it: on 2026-10-09, calling a code editor's setup function to read
-  an IAM policy replaced the editor and its unsaved text.
+  page's own scripts to read it. On 2026-10-09 that replaced a code editor and its unsaved text.
 - Computer use can see a browser window but not click or type in it, so it is no substitute
   for either browser.
 - Do not drive the person's browser through AppleScript or similar scripting. The reason is
