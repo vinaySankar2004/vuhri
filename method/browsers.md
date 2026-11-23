@@ -24,8 +24,17 @@ the next task. Failures seen so far:
   `www.google.com` stayed reachable; the same form submitted in Chrome.
 - **Media uploads on X.** A video attached in the pane shows "Ready" but is never sent to X's
   upload server, so Post stays disabled. Seen 2026-10-23; the same post went out from Chrome.
+- **Image uploads in YouTube Studio.** A banner and profile picture picked in the pane's file
+  dialog never reached the channel, and Studio still showed the placeholders. Seen 2026-11-19;
+  the same files went up from Chrome through the extension's file upload.
 
 Add a failure to this list only when it has been seen, with its date.
+
+Some sites are blocked in both browsers, so switching does not help. Ask the person to read
+them and pass on what matters:
+
+- **Reddit.** Both browsers refuse it as "not allowed due to safety restrictions", even when
+  the person is signed in. Seen 2026-11-19.
 
 Claude in Chrome is Anthropic's extension. It works in new tabs of the person's real Chrome,
 with the sign-ins they already have there. Recent Chrome on macOS can use passkeys saved in
